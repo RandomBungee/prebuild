@@ -1,0 +1,10 @@
+name: PreBuilding
+version: 0.0.1
+author: RandomBungee
+
+main: de.flamefoxes.prebuild.PreBuilding
+
+commands:
+  start:
+  finish:
+  setspawn:
