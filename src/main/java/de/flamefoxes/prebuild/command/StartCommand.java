@@ -15,7 +15,7 @@ public class StartCommand implements CommandExecutor {
     private final PreBuilding preBuilding;
     private final PrePlayer prePlayer;
 
-    private StartCommand(PreBuilding preBuilding) {
+    public StartCommand(PreBuilding preBuilding) {
         this.preBuilding = preBuilding;
         this.prePlayer = SqlPrePlayerRepository.create(Mysql.connection);
     }

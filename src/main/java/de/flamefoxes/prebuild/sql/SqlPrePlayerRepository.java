@@ -60,7 +60,7 @@ public class SqlPrePlayerRepository implements PrePlayer {
                     = connection.prepareStatement(
                             "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ? WHERE player_name = ?"
             );
-            createStatement(preparedStatement, name, theme, email, discord, submitted, status);
+            updateStatement(preparedStatement, name, theme, email, discord, submitted, status);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
             System.err.println("Can´t update Player in SQL: " + cantCreatePlayer.getMessage());
@@ -76,12 +76,12 @@ public class SqlPrePlayerRepository implements PrePlayer {
             int submitted,
             int status
     ) throws SQLException {
-        preparedStatement.setString(1, name);
-        preparedStatement.setString(2, theme);
-        preparedStatement.setString(3, email);
-        preparedStatement.setString(4, discord);
-        preparedStatement.setInt(5, submitted);
-        preparedStatement.setInt(6, status);
+        preparedStatement.setString(1, theme);
+        preparedStatement.setString(2, email);
+        preparedStatement.setString(3, discord);
+        preparedStatement.setInt(4, submitted);
+        preparedStatement.setInt(5, status);
+        preparedStatement.setString(6, name);
     }
 
     public int submitted(String name) {
@@ -149,6 +149,52 @@ public class SqlPrePlayerRepository implements PrePlayer {
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             return resultSet.getString("theme");
+        }
+        return "";
+    }
+
+    public String discord(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return discordStatement(preparedStatement, name);
+        } catch (SQLException cantCatchTheme) {
+            System.err.println("Can´t getting Theme: " + cantCatchTheme.getMessage());
+        }
+        return "no Discord";
+    }
+
+    private String discordStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return resultSet.getString("discord");
+        }
+        return "";
+    }
+
+    public String email(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return emailStatement(preparedStatement, name);
+        } catch (SQLException cantCatchTheme) {
+            System.err.println("Can´t getting Theme: " + cantCatchTheme.getMessage());
+        }
+        return "no E-Mail";
+    }
+
+    private String emailStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return resultSet.getString("discord");
         }
         return "";
     }

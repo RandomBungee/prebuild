@@ -32,6 +32,7 @@ public class Mysql {
             connection
                     = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database + "?autoReconnect0true",
                     this.user, this.password);
+            System.out.println("[MySQL] Connected!");
         } catch (SQLException failureToConnect) {
             System.err.println("Can´t connect to Mysql-Database: " + failureToConnect.getMessage());
         }
@@ -46,7 +47,9 @@ public class Mysql {
                             " email VARCHAR(100)," +
                             " discord VARCHAR(100)," +
                             " submitted INT," +
-                            " status INT)");
+                            " status INT)")
+            .executeUpdate();
+            System.out.println("[MySQL] Table was created!");
         } catch (SQLException createTableFailure) {
             System.err.println("Can´t create Table: " + createTableFailure.getMessage());
         }

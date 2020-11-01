@@ -17,6 +17,8 @@ public class Themes {
         if(themeExist()) {
             List<String> themes = fileConfiguration.getStringList("PreBuilding.Themes");
             themes.add("EXAMPLE_THEME");
+            fileConfiguration.set("PreBuilding.Themes", themes);
+            saveConfiguration();
         }
     }
 

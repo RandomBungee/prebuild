@@ -31,16 +31,18 @@ public class ContactCommand implements CommandExecutor {
             }
             if(specificationType.equalsIgnoreCase("Mail")) {
                 String theme = prePlayer.theme(player.getName());
+                String discord = prePlayer.discord(player.getName());
                 int status = prePlayer.status(player.getName());
                 int submitted = prePlayer.submitted(player.getName());
-                prePlayer.change(player.getName(), theme, specification, null, submitted, status);
+                prePlayer.change(player.getName(), theme, specification, discord, submitted, status);
                 player.sendMessage(PreBuilding.PREFIX + "§7Deine E-Mail wurde geändert!");
             }
             if(specificationType.equalsIgnoreCase("Discord")) {
                 String theme = prePlayer.theme(player.getName());
+                String email = prePlayer.email(player.getName());
                 int status = prePlayer.status(player.getName());
                 int submitted = prePlayer.submitted(player.getName());
-                prePlayer.change(player.getName(), theme, null, specification, submitted, status);
+                prePlayer.change(player.getName(), theme, email, specification, submitted, status);
                 player.sendMessage(PreBuilding.PREFIX + "§7Dein Discord wurde geändert!");
             }
 
@@ -56,10 +58,10 @@ public class ContactCommand implements CommandExecutor {
         if(!(commandSender instanceof Player)) {
             return true;
         }
-        if(!command.getName().equalsIgnoreCase("start")) {
+        if(!command.getName().equalsIgnoreCase("contact")) {
             return true;
         }
-        if(!(arguments.length > 2)) {
+        if(!(arguments.length >= 2)) {
             commandSender.sendMessage(PreBuilding.PREFIX + "§7Bitte verwende §c/contact <Mail|Discord> <Name>");
             return true;
         }
