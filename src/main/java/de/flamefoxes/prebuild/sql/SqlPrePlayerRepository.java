@@ -2,6 +2,7 @@ package de.flamefoxes.prebuild.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SqlPrePlayerRepository implements PrePlayer {
@@ -56,7 +57,9 @@ public class SqlPrePlayerRepository implements PrePlayer {
     ) {
         try {
             PreparedStatement preparedStatement
-                    = connection.prepareStatement("UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ? WHERE player_name = ?");
+                    = connection.prepareStatement(
+                            "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ? WHERE player_name = ?"
+            );
             createStatement(preparedStatement, name, theme, email, discord, submitted, status);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
@@ -81,19 +84,49 @@ public class SqlPrePlayerRepository implements PrePlayer {
         preparedStatement.setInt(6, status);
     }
 
-    public int status(String name) {
-        return 0;
-    }
-
-    private int statusStatement() {
-        return 0;
-    }
-
     public int submitted(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return submittedStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Submitted: " + cantCatchStatus.getMessage());
+        }
         return 0;
     }
 
-    private int submittedStatement() {
+    private int submittedStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt("submitted");
+        }
+        return 0;
+    }
+
+    public int status(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return statusStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Status: " + cantCatchStatus.getMessage());
+        }
+        return 0;
+    }
+
+    private int statusStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getInt("status");
+        }
         return 0;
     }
 
