@@ -41,13 +41,15 @@ public class FinishCommand implements CommandExecutor {
                 return true;
             }
             if(arguments.length == 2) {
-                if(confirm.contains(player)) {
-                    confirm.remove(player);
-                    String theme = prePlayer.theme(player.getName());
-                    String discord = prePlayer.discord(player.getName());
-                    String email = prePlayer.email(player.getName());
-                    prePlayer.change(player.getName(), theme, email, discord, 1, 0);
-                    player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
+                if(arguments[0].equalsIgnoreCase("conform")) {
+                    if(confirm.contains(player)) {
+                        confirm.remove(player);
+                        String theme = prePlayer.theme(player.getName());
+                        String discord = prePlayer.discord(player.getName());
+                        String email = prePlayer.email(player.getName());
+                        prePlayer.change(player.getName(), theme, email, discord, 1, 0);
+                        player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
+                    }
                 }
             }
         }

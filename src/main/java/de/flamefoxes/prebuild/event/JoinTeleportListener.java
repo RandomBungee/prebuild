@@ -6,10 +6,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class JoinListener implements Listener {
+public class JoinTeleportListener implements Listener {
     private final PreBuilding preBuilding;
 
-    public JoinListener(PreBuilding preBuilding) {
+    public JoinTeleportListener(PreBuilding preBuilding) {
         this.preBuilding = preBuilding;
     }
 

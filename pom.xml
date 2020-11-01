@@ -6,7 +6,7 @@
 
     <groupId>de.flamefoxes</groupId>
     <artifactId>PreBuilding</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <repositories>
         <repository>
