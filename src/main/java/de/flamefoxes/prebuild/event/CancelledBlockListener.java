@@ -19,8 +19,9 @@ public class CancelledBlockListener implements Listener {
     @EventHandler
     public void checkPlayerAllowedToPlace(BlockPlaceEvent blockPlaceEvent) {
         Player player = blockPlaceEvent.getPlayer();
-        if(prePlayer.status(player.getName()) == 1) {
+        if(prePlayer.submitted(player.getName()) == 1) {
             blockPlaceEvent.setCancelled(true);
+            return;
         }
         blockPlaceEvent.setCancelled(false);
     }
@@ -28,8 +29,9 @@ public class CancelledBlockListener implements Listener {
     @EventHandler
     public void checkPlayerAllowedToBreak(BlockBreakEvent blockBreakEvent) {
         Player player = blockBreakEvent.getPlayer();
-        if(prePlayer.status(player.getName()) == 1) {
+        if(prePlayer.submitted(player.getName()) == 1) {
             blockBreakEvent.setCancelled(true);
+            return;
         }
         blockBreakEvent.setCancelled(false);
     }

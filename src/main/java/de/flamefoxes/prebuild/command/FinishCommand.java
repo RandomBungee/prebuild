@@ -30,18 +30,16 @@ public class FinishCommand implements CommandExecutor {
     ) {
         if(!checkCommandComponents(commandSender, command)) {
             Player player = (Player)commandSender;
-            if(arguments.length == 1) {
+            if(arguments.length == 0) {
                 if(!confirm.contains(player)) {
                     confirm.add(player);
                     player.sendMessage(PreBuilding.PREFIX + "§7Bist du sicher das du dein Plot abgeben möchtest?");
                     player.sendMessage(PreBuilding.PREFIX + "§7Wenn ja, dann gebe §c/finish confirm ein");
-                    return true;
+                } else {
+                    player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish confirm §7ein!");
                 }
-                player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish confirm §7ein!");
-                return true;
-            }
-            if(arguments.length == 2) {
-                if(arguments[0].equalsIgnoreCase("conform")) {
+            } else if(arguments.length == 1) {
+                if(arguments[0].equalsIgnoreCase("confirm")) {
                     if(confirm.contains(player)) {
                         confirm.remove(player);
                         String theme = prePlayer.theme(player.getName());
@@ -49,6 +47,8 @@ public class FinishCommand implements CommandExecutor {
                         String email = prePlayer.email(player.getName());
                         prePlayer.change(player.getName(), theme, email, discord, 1, 0);
                         player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
+                    } else {
+                        player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish §7ein!");
                     }
                 }
             }

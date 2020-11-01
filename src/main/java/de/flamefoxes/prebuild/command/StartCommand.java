@@ -1,6 +1,7 @@
 package de.flamefoxes.prebuild.command;
 
 import de.flamefoxes.prebuild.PreBuilding;
+import de.flamefoxes.prebuild.score.Score;
 import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
@@ -29,9 +30,10 @@ public class StartCommand implements CommandExecutor {
             Player player = (Player)commandSender;
             String randomTheme = pickRandomTheme();
             preBuilding.getServer().dispatchCommand(player, "p auto");
-            prePlayer.create(player.getName(), randomTheme, null, null, 0, 0);
+            prePlayer.change(player.getName(), randomTheme, null, null, 0, 1);
             player.sendRawMessage(PreBuilding.PREFIX + "§7Dein Thema ist: " + randomTheme);
             player.sendMessage(PreBuilding.PREFIX + "§7Wenn du fertig bist gebe §c/finish §7ein um dein Plot abzugeben");
+            Score.setScoreboard(player);
         }
         return false;
     }

@@ -19,23 +19,23 @@ public class Locations {
 
     public void setLocation(String name, Location location) {
         fileConfiguration.set(name + ".world", location.getWorld().getName());
-        fileConfiguration.set(name + ".x", location.getX());
+        fileConfiguration.set(name + ".X", location.getX());
         fileConfiguration.set(name + ".Y", location.getY());
         fileConfiguration.set(name + ".Z", location.getZ());
-        fileConfiguration.set(name + ".yaw", location.getYaw());
-        fileConfiguration.set(name + ".pitch", location.getPitch());
+        fileConfiguration.set(name + ".Yaw", location.getYaw());
+        fileConfiguration.set(name + ".Pitch", location.getPitch());
         saveConfiguration();
     }
 
     public Location location(String name) {
         Location location;
         World world = Bukkit.getWorld(fileConfiguration.getString(name + ".world"));
-        double x = fileConfiguration.getDouble(name + ".x");
-        double y = fileConfiguration.getDouble(name + ".y");
-        double z = fileConfiguration.getDouble(name + ".z");
+        double x = fileConfiguration.getDouble(name + ".X");
+        double y = fileConfiguration.getDouble(name + ".Y");
+        double z = fileConfiguration.getDouble(name + ".Z");
         location = new Location(world, x, y, z);
-        location.setYaw((float) fileConfiguration.getInt(name + ".yaw"));
-        location.setPitch((float) fileConfiguration.getInt(name + ".pitch"));
+        location.setYaw(fileConfiguration.getInt(name + ".Yaw"));
+        location.setPitch(fileConfiguration.getInt(name + ".Pitch"));
         return location;
     }
 
