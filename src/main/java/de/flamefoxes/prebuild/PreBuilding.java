@@ -9,8 +9,8 @@ public class PreBuilding extends JavaPlugin {
     private PreBuilding() {}
 
     public static final String PREFIX = "§7[§eVorbau-Server§7] §8| §r";
-    public Themes themes;
-    public Locations locations;
+    private Themes themes;
+    private Locations locations;
 
     @Override
     public void onEnable() {
@@ -27,4 +27,6 @@ public class PreBuilding extends JavaPlugin {
     public Themes themes() {
         return this.themes;
     }
+
+    public Locations locations() { return this.locations; }
 }

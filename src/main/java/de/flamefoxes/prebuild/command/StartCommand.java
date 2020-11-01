@@ -52,8 +52,8 @@ public class StartCommand implements CommandExecutor {
     private String pickRandomTheme() {
         String theme;
         Random random = new Random();
-        int maxThemes = preBuilding.themes.themesFromFile().size() - 1;
-        theme = preBuilding.themes.themesFromFile().get(random.nextInt(maxThemes));
+        int maxThemes = preBuilding.themes().themesFromFile().size() - 1;
+        theme = preBuilding.themes().themesFromFile().get(random.nextInt(maxThemes));
         return theme;
     }
 }
