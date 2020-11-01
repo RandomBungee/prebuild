@@ -10,4 +10,6 @@ public interface PrePlayer {
     int status(String name);
 
     int submitted(String name);
+
+    String theme(String name);
 }

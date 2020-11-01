@@ -130,6 +130,29 @@ public class SqlPrePlayerRepository implements PrePlayer {
         return 0;
     }
 
+    public String theme(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return themeStatement(preparedStatement, name);
+        } catch (SQLException cantCatchTheme) {
+            System.err.println("Can´t getting Theme: " + cantCatchTheme.getMessage());
+        }
+        return "no Theme";
+    }
+
+    private String themeStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return resultSet.getString("theme");
+        }
+        return "";
+    }
+
     private void updateAndCloseStatement(PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.executeUpdate();
         preparedStatement.close();

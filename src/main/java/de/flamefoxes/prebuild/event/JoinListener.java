@@ -16,5 +16,9 @@ public class JoinListener implements Listener {
     @EventHandler
     public void playerTeleportToSpawn(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
+        player.teleport(preBuilding.locations().location("spawn"));
+        player.sendMessage(PreBuilding.PREFIX + "§7Wilkommen auf dem Bau-Server!");
+        player.sendMessage(PreBuilding.PREFIX + "§7Solltest du noch kein Plot haben gebe §c/start §7ein!");
+        player.sendMessage(PreBuilding.PREFIX + "§7Bist du fertig mit deinem Plot? §aDann gebe §c/finish §aein!");
     }
 }
