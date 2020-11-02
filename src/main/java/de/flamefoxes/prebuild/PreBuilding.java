@@ -1,6 +1,5 @@
 package de.flamefoxes.prebuild;
 
-import com.avaje.ebeaninternal.server.type.ScalarDataReader;
 import de.flamefoxes.prebuild.command.*;
 import de.flamefoxes.prebuild.configuration.Locations;
 import de.flamefoxes.prebuild.configuration.Themes;
@@ -8,10 +7,7 @@ import de.flamefoxes.prebuild.event.AdminInventoryInteractListener;
 import de.flamefoxes.prebuild.event.CancelledBlockListener;
 import de.flamefoxes.prebuild.event.JoinTeleportListener;
 import de.flamefoxes.prebuild.ineventory.AdminInventory;
-import de.flamefoxes.prebuild.score.Score;
 import de.flamefoxes.prebuild.sql.Mysql;
-import de.flamefoxes.prebuild.sql.PrePlayer;
-import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PreBuilding extends JavaPlugin {
@@ -44,7 +40,7 @@ public class PreBuilding extends JavaPlugin {
         getCommand("finish").setExecutor(new FinishCommand(this));
         getCommand("setspawn").setExecutor(new SetupCommand(this));
         getCommand("admin").setExecutor(new AdminCommand(this));
-        getCommand("status").setExecutor(new StatusCommand(this));
+        getCommand("status").setExecutor(new StatusCommand());
         getServer().getPluginManager().registerEvents(new JoinTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelledBlockListener(), this);
         getServer().getPluginManager().registerEvents(new AdminInventoryInteractListener(this), this);

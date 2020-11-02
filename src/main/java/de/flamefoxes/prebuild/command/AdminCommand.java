@@ -37,6 +37,7 @@ public class AdminCommand implements CommandExecutor {
             return true;
         }
         if(!commandSender.hasPermission("prebuild.admingui")) {
+            commandSender.sendMessage(PreBuilding.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
             return true;
         }
         return false;

@@ -10,11 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class StatusCommand implements CommandExecutor {
-    private final PreBuilding preBuilding;
     private final PrePlayer prePlayer;
 
-    public StatusCommand(PreBuilding preBuilding) {
-        this.preBuilding = preBuilding;
+    public StatusCommand() {
         this.prePlayer = SqlPrePlayerRepository.create(Mysql.connection);
     }
 
@@ -55,6 +53,10 @@ public class StatusCommand implements CommandExecutor {
         }
         if(!(arguments.length == 2)) {
             commandSender.sendMessage(PreBuilding.PREFIX + "§7Bitte verwende §c/status <Player> <Angenommen|Abgelehnt>");
+            return true;
+        }
+        if(!commandSender.hasPermission("prebuild.status")) {
+            commandSender.sendMessage(PreBuilding.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
             return true;
         }
         return false;

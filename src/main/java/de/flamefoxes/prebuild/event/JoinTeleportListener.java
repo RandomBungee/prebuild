@@ -30,5 +30,6 @@ public class JoinTeleportListener implements Listener {
             prePlayer.create(player.getName(), null, null, null, 0, 0);
         }
         Score.setScoreboard(player);
+        joinEvent.setJoinMessage(null);
     }
 }

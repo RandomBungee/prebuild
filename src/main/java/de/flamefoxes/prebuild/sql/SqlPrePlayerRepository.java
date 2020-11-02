@@ -1,7 +1,5 @@
 package de.flamefoxes.prebuild.sql;
 
-import de.flamefoxes.prebuild.PreBuilding;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
