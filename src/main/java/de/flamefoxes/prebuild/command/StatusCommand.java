@@ -50,10 +50,10 @@ public class StatusCommand implements CommandExecutor {
         if(!(commandSender instanceof Player)) {
             return true;
         }
-        if(!command.getName().equalsIgnoreCase("contact")) {
+        if(!command.getName().equalsIgnoreCase("status")) {
             return true;
         }
-        if(!(arguments.length == 3)) {
+        if(!(arguments.length == 2)) {
             commandSender.sendMessage(PreBuilding.PREFIX + "§7Bitte verwende §c/status <Player> <Angenommen|Abgelehnt>");
             return true;
         }

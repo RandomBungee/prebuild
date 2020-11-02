@@ -1,12 +1,10 @@
 package de.flamefoxes.prebuild.ineventory;
 
-import de.flamefoxes.prebuild.PreBuilding;
 import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.LightningStrike;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -27,12 +25,11 @@ public class AdminInventory {
     }
 
     public void createInventory(Player player) {
-        for(int i = 0; i < 27; i++) {
-            adminInventory.setItem(i, setItem(" ", Material.STAINED_GLASS_PANE, 1, 7));
-        }
+        adminInventory.clear();
         for(String players : prePlayer.players()) {
-            adminInventory.addItem(new ItemStack[]{createPlayerHead(players)});
+            adminInventory.addItem(createPlayerHead(players));
         }
+        player.openInventory(adminInventory);
     }
 
     private ItemStack createPlayerHead(String name) {
@@ -42,19 +39,6 @@ public class AdminInventory {
         skullMeta.setDisplayName("§8» §7" + name);
         skullMeta.setLore(lore(name));
         itemStack.setItemMeta(skullMeta);
-        return itemStack;
-    }
-
-    private ItemStack setItem(
-            String displayName,
-            Material material,
-            int amount,
-            int shorts
-    ) {
-        ItemStack itemStack = new ItemStack(material, amount, (short) shorts);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(displayName);
-        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 

@@ -18,4 +18,6 @@ public interface PrePlayer {
     String email(String name);
 
     List<String> players();
+
+    boolean exist(String name);
 }

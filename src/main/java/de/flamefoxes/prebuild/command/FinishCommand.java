@@ -50,7 +50,7 @@ public class FinishCommand implements CommandExecutor {
                         String theme = prePlayer.theme(player.getName());
                         String discord = prePlayer.discord(player.getName());
                         String email = prePlayer.email(player.getName());
-                        prePlayer.change(player.getName(), theme, email, discord, 1, 0);
+                        prePlayer.change(player.getName(), theme, email, discord, 1, 1);
                         player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
                     } else {
                         player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish §7ein!");

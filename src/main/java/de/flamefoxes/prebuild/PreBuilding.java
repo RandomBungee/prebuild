@@ -4,11 +4,14 @@ import com.avaje.ebeaninternal.server.type.ScalarDataReader;
 import de.flamefoxes.prebuild.command.*;
 import de.flamefoxes.prebuild.configuration.Locations;
 import de.flamefoxes.prebuild.configuration.Themes;
+import de.flamefoxes.prebuild.event.AdminInventoryInteractListener;
 import de.flamefoxes.prebuild.event.CancelledBlockListener;
 import de.flamefoxes.prebuild.event.JoinTeleportListener;
 import de.flamefoxes.prebuild.ineventory.AdminInventory;
 import de.flamefoxes.prebuild.score.Score;
 import de.flamefoxes.prebuild.sql.Mysql;
+import de.flamefoxes.prebuild.sql.PrePlayer;
+import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PreBuilding extends JavaPlugin {
@@ -25,9 +28,6 @@ public class PreBuilding extends JavaPlugin {
     }
 
     private void init() {
-        themes = new Themes();
-        locations = new Locations();
-        adminInventory = new AdminInventory();
         Mysql mysql = new Mysql(
                 "localhost",
                 "test123",
@@ -35,6 +35,9 @@ public class PreBuilding extends JavaPlugin {
                 "test123",
                 3306
         );
+        themes = new Themes();
+        locations = new Locations();
+        adminInventory = new AdminInventory();
         mysql.createTable();
         getCommand("start").setExecutor(new StartCommand(this));
         getCommand("contact").setExecutor(new ContactCommand());
@@ -44,6 +47,7 @@ public class PreBuilding extends JavaPlugin {
         getCommand("status").setExecutor(new StatusCommand(this));
         getServer().getPluginManager().registerEvents(new JoinTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelledBlockListener(), this);
+        getServer().getPluginManager().registerEvents(new AdminInventoryInteractListener(this), this);
         themes.setDefaultThemes();
     }
 

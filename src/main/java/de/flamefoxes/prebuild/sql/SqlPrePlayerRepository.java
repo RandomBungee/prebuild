@@ -1,5 +1,7 @@
 package de.flamefoxes.prebuild.sql;
 
+import de.flamefoxes.prebuild.PreBuilding;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -196,7 +198,7 @@ public class SqlPrePlayerRepository implements PrePlayer {
         preparedStatement.setString(1, name);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
-            return resultSet.getString("discord");
+            return resultSet.getString("email");
         }
         return "";
     }
@@ -219,6 +221,29 @@ public class SqlPrePlayerRepository implements PrePlayer {
             players.add(resultSet.getString("player_name"));
         }
         return players;
+    }
+
+    public boolean exist(String name) {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return existStatement(preparedStatement, name);
+        } catch (SQLException cantCheckExisting) {
+            System.err.println("Can´t Check if Player exist: " + cantCheckExisting.getMessage());
+        }
+        return false;
+    }
+
+    private boolean existStatement(
+            PreparedStatement preparedStatement,
+            String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()) {
+            return true;
+        }
+        return false;
     }
 
     private void updateAndCloseStatement(PreparedStatement preparedStatement) throws SQLException {
