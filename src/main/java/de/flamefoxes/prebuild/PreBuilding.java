@@ -1,10 +1,7 @@
 package de.flamefoxes.prebuild;
 
 import com.avaje.ebeaninternal.server.type.ScalarDataReader;
-import de.flamefoxes.prebuild.command.ContactCommand;
-import de.flamefoxes.prebuild.command.FinishCommand;
-import de.flamefoxes.prebuild.command.SetupCommand;
-import de.flamefoxes.prebuild.command.StartCommand;
+import de.flamefoxes.prebuild.command.*;
 import de.flamefoxes.prebuild.configuration.Locations;
 import de.flamefoxes.prebuild.configuration.Themes;
 import de.flamefoxes.prebuild.event.CancelledBlockListener;
@@ -43,6 +40,8 @@ public class PreBuilding extends JavaPlugin {
         getCommand("contact").setExecutor(new ContactCommand());
         getCommand("finish").setExecutor(new FinishCommand(this));
         getCommand("setspawn").setExecutor(new SetupCommand(this));
+        getCommand("admin").setExecutor(new AdminCommand(this));
+        getCommand("status").setExecutor(new StatusCommand(this));
         getServer().getPluginManager().registerEvents(new JoinTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelledBlockListener(), this);
         themes.setDefaultThemes();
