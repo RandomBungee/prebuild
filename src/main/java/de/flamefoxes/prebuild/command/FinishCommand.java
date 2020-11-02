@@ -32,9 +32,14 @@ public class FinishCommand implements CommandExecutor {
             Player player = (Player)commandSender;
             if(arguments.length == 0) {
                 if(!confirm.contains(player)) {
-                    confirm.add(player);
-                    player.sendMessage(PreBuilding.PREFIX + "§7Bist du sicher das du dein Plot abgeben möchtest?");
-                    player.sendMessage(PreBuilding.PREFIX + "§7Wenn ja, dann gebe §c/finish confirm ein");
+                    if(!checkContact(player.getName())) {
+                        confirm.add(player);
+                        player.sendMessage(PreBuilding.PREFIX + "§7Bist du sicher das du dein Plot abgeben möchtest?");
+                        player.sendMessage(PreBuilding.PREFIX + "§7Wenn ja, dann gebe §c/finish confirm ein");
+                    } else {
+                        player.sendMessage(PreBuilding.PREFIX + "§cDu musst deine Kontakt-Daten noch angeben!");
+                        player.sendMessage(PreBuilding.PREFIX + "§cKontakt-Daten kannst du mit /contact ändern!");
+                    }
                 } else {
                     player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish confirm §7ein!");
                 }
@@ -64,6 +69,13 @@ public class FinishCommand implements CommandExecutor {
             return true;
         }
         if(!command.getName().equalsIgnoreCase("finish")) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkContact(String name) {
+        if(prePlayer.discord(name) == null || prePlayer.email(name) == null) {
             return true;
         }
         return false;

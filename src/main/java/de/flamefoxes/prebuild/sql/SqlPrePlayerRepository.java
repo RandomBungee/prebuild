@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlPrePlayerRepository implements PrePlayer {
     private final Connection connection;
@@ -197,6 +199,26 @@ public class SqlPrePlayerRepository implements PrePlayer {
             return resultSet.getString("discord");
         }
         return "";
+    }
+
+    public List<String> players() {
+        try {
+            PreparedStatement preparedStatement
+                    = connection.prepareStatement("SELECT * FROM player_data");
+            return playersStatement(preparedStatement);
+        } catch (SQLException cantCatchAllPlayers)  {
+            System.err.println("Can´t get all Player from Database: " + cantCatchAllPlayers.getMessage());
+        }
+        return null;
+    }
+
+    private List<String> playersStatement(PreparedStatement preparedStatement) throws SQLException {
+        List<String> players = new ArrayList<String>();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            players.add(resultSet.getString("player_name"));
+        }
+        return players;
     }
 
     private void updateAndCloseStatement(PreparedStatement preparedStatement) throws SQLException {

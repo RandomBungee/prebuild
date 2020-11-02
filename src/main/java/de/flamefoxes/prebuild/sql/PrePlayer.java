@@ -1,5 +1,7 @@
 package de.flamefoxes.prebuild.sql;
 
+import java.util.List;
+
 public interface PrePlayer {
     void create(String name, String theme, String email, String discord, int submitted, int status);
 
@@ -14,4 +16,6 @@ public interface PrePlayer {
     String discord(String name);
 
     String email(String name);
+
+    List<String> players();
 }

@@ -6,22 +6,22 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SetupCommand implements CommandExecutor {
+public class AdminCommand implements CommandExecutor {
     private final PreBuilding preBuilding;
 
-    public SetupCommand(PreBuilding preBuilding) {
+    public AdminCommand(PreBuilding preBuilding) {
         this.preBuilding = preBuilding;
     }
 
     public boolean onCommand(
             CommandSender commandSender,
             Command command,
-            String label,
-            String[] arguments) {
+            String Label,
+            String[] arguments
+    ) {
         if(!checkCommandComponents(commandSender, command)) {
             Player player = (Player)commandSender;
-            preBuilding.locations().setLocation("spawn", player.getLocation());
-            player.sendMessage(PreBuilding.PREFIX + "§7Du hast die Location für den §aSpawn §7gesetzt!");
+            preBuilding.adminInventory().createInventory(player);
         }
         return false;
     }
@@ -33,10 +33,10 @@ public class SetupCommand implements CommandExecutor {
         if(!(commandSender instanceof Player)) {
             return true;
         }
-        if(!command.getName().equalsIgnoreCase("setspawn")) {
+        if(!command.getName().equalsIgnoreCase("admin")) {
             return true;
         }
-        if(!commandSender.hasPermission("prebuild.setspawn")) {
+        if(!commandSender.hasPermission("prebuild.admingui")) {
             return true;
         }
         return false;
