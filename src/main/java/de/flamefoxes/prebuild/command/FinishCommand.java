@@ -4,6 +4,7 @@ import de.flamefoxes.prebuild.PreBuilding;
 import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
+import de.flamefoxes.prebuild.util.Algorithm;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,7 +51,8 @@ public class FinishCommand implements CommandExecutor {
                         String theme = prePlayer.theme(player.getName());
                         String discord = prePlayer.discord(player.getName());
                         String email = prePlayer.email(player.getName());
-                        prePlayer.change(player.getName(), theme, email, discord, 1, 1);
+                        String checkKey = Algorithm.generate(16);
+                        prePlayer.change(player.getName(), theme, email, discord, 1, 1, checkKey);
                         player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
                     } else {
                         player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish §7ein!");

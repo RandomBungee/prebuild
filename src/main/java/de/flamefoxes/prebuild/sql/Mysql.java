@@ -47,7 +47,8 @@ public class Mysql {
                             " email VARCHAR(100)," +
                             " discord VARCHAR(100)," +
                             " submitted INT," +
-                            " status INT)")
+                            " status INT,"
+                            + "check_key VARCHAR(100))")
             .executeUpdate();
             System.out.println("[MySQL] Table was created!");
         } catch (SQLException createTableFailure) {

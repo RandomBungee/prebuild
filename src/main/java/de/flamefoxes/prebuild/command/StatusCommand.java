@@ -29,11 +29,12 @@ public class StatusCommand implements CommandExecutor {
             String email = prePlayer.email(targetName);
             String discord = prePlayer.discord(targetName);
             int submitted = prePlayer.submitted(targetName);
+            String checkKey = prePlayer.checkKey(player.getName());
             if(statusChange.equalsIgnoreCase("angenommen")) {
-                prePlayer.change(targetName, theme, email, discord, submitted, 2);
+                prePlayer.change(targetName, theme, email, discord, submitted, 2, checkKey);
                 player.sendMessage(PreBuilding.PREFIX + "§7Du hast die Bewerbung von §e" + targetName + " §aangenommen§7!");
             } else if(statusChange.equalsIgnoreCase("abgelehnt")) {
-                prePlayer.change(targetName, theme, email, discord, submitted, 3);
+                prePlayer.change(targetName, theme, email, discord, submitted, 3, checkKey);
                 player.sendMessage(PreBuilding.PREFIX + "§7Du hast die Bewerbung von §e" + targetName + " §cabgelehnt§7!");
             }
         }

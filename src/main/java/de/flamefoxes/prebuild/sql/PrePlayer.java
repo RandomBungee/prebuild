@@ -3,9 +3,9 @@ package de.flamefoxes.prebuild.sql;
 import java.util.List;
 
 public interface PrePlayer {
-    void create(String name, String theme, String email, String discord, int submitted, int status);
+    void create(String name, String theme, String email, String discord, int submitted, int status, String checkKey);
 
-    void change(String name, String theme, String email, String discord, int submitted, int status);
+    void change(String name, String theme, String email, String discord, int submitted, int status, String checkKey);
 
     int status(String name);
 
@@ -20,4 +20,6 @@ public interface PrePlayer {
     List<String> players();
 
     boolean exist(String name);
+
+    String checkKey(String name);
 }

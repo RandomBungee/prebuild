@@ -30,7 +30,7 @@ public class StartCommand implements CommandExecutor {
             Player player = (Player)commandSender;
             String randomTheme = pickRandomTheme();
             preBuilding.getServer().dispatchCommand(player, "p auto");
-            prePlayer.change(player.getName(), randomTheme, null, null, 0, 1);
+            prePlayer.change(player.getName(), randomTheme, null, null, 0, 1, null);
             player.sendRawMessage(PreBuilding.PREFIX + "§7Dein Thema ist: " + randomTheme);
             player.sendMessage(PreBuilding.PREFIX + "§7Wenn du fertig bist gebe §c/finish §7ein um dein Plot abzugeben");
             Score.setScoreboard(player);

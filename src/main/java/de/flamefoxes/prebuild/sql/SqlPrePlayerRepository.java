@@ -20,12 +20,13 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String email,
             String discord,
             int submitted,
-            int status
+            int status,
+      String checkKey
     ) {
         try {
             PreparedStatement preparedStatement
-                    = connection.prepareStatement("INSERT INTO player_data (player_name,theme,email,discord,submitted,status) VALUES (?,?,?,?,?,?)");
-            createStatement(preparedStatement, name, theme, email, discord, submitted, status);
+                    = connection.prepareStatement("INSERT INTO player_data (player_name,theme,email,discord,submitted,status,check_key) VALUES (?,?,?,?,?,?,?)");
+            createStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
             System.err.println("Can´t create Player in SQL: " + cantCreatePlayer.getMessage());
@@ -39,7 +40,8 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String email,
             String discord,
             int submitted,
-            int status
+            int status,
+            String checkKey
     ) throws SQLException {
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, theme);
@@ -47,6 +49,7 @@ public class SqlPrePlayerRepository implements PrePlayer {
         preparedStatement.setString(4, discord);
         preparedStatement.setInt(5, submitted);
         preparedStatement.setInt(6, status);
+        preparedStatement.setString(7, checkKey);
     }
 
     public void change(
@@ -55,14 +58,15 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String email,
             String discord,
             int submitted,
-            int status
+            int status,
+             String checkKey
     ) {
         try {
             PreparedStatement preparedStatement
                     = connection.prepareStatement(
-                            "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ? WHERE player_name = ?"
+                            "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ?, check_key WHERE player_name = ?"
             );
-            updateStatement(preparedStatement, name, theme, email, discord, submitted, status);
+            updateStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
             System.err.println("Can´t update Player in SQL: " + cantCreatePlayer.getMessage());
@@ -76,7 +80,8 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String email,
             String discord,
             int submitted,
-            int status
+            int status,
+            String checkKey
     ) throws SQLException {
         preparedStatement.setString(1, theme);
         preparedStatement.setString(2, email);
@@ -84,6 +89,7 @@ public class SqlPrePlayerRepository implements PrePlayer {
         preparedStatement.setInt(4, submitted);
         preparedStatement.setInt(5, status);
         preparedStatement.setString(6, name);
+        preparedStatement.setString(7, checkKey);
     }
 
     public int submitted(String name) {
@@ -130,6 +136,29 @@ public class SqlPrePlayerRepository implements PrePlayer {
             return resultSet.getInt("status");
         }
         return 0;
+    }
+
+    public String checkKey(String name) {
+        try {
+            PreparedStatement preparedStatement
+              = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return checkKeyStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Status: " + cantCatchStatus.getMessage());
+        }
+        return "";
+    }
+
+    private String checkKeyStatement(
+      PreparedStatement preparedStatement,
+      String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("check_key");
+        }
+        return "";
     }
 
     public String theme(String name) {

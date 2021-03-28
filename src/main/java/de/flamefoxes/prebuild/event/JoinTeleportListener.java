@@ -27,7 +27,7 @@ public class JoinTeleportListener implements Listener {
         player.sendMessage(PreBuilding.PREFIX + "§7Solltest du noch kein Plot haben gebe §c/start §7ein!");
         player.sendMessage(PreBuilding.PREFIX + "§7Bist du fertig mit deinem Plot? §aDann gebe §c/finish §aein!");
         if(!prePlayer.exist(player.getName())) {
-            prePlayer.create(player.getName(), null, null, null, 0, 0);
+            prePlayer.create(player.getName(), null, null, null, 0, 0, null);
         }
         Score.setScoreboard(player);
         joinEvent.setJoinMessage(null);
