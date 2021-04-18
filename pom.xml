@@ -10,8 +10,8 @@
 
     <repositories>
         <repository>
-            <id>maven-releases</id>
-            <url>https://nexus.flamefoxes.de/repository/maven-releases/</url>
+          <id>spigot-repo</id>
+          <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
       <repository>
         <id>OnARandomBox</id>
@@ -29,7 +29,8 @@
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.16.5-R0.1</version>
+        <version>1.16.5-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
       </dependency>
     </dependencies>
 
