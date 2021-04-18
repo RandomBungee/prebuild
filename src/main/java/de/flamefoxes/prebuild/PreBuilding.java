@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PreBuilding extends JavaPlugin {
     public PreBuilding() {}
 
-    public static final String PREFIX = "§7[§eVorbau-Server§7] §8| §r";
+    public static final String PREFIX = "§7§l︳ §eVorbau§7 ● ";
     private Themes themes;
     private Locations locations;
     private PlayerInventory playerInventory;
