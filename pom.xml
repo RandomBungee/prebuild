@@ -6,27 +6,32 @@
 
     <groupId>de.flamefoxes</groupId>
     <artifactId>PreBuilding</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.2</version>
 
     <repositories>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+      <repository>
+        <id>OnARandomBox</id>
+        <url>http://repo.onarandombox.com/content/groups/public/</url>
+      </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.8-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>3.14.0</version>
-        </dependency>
+      <dependency>
+        <groupId>com.onarandombox.multiversecore</groupId> <!-- Don't forget to replace this -->
+        <artifactId>Multiverse-Core</artifactId> <!-- Replace this as well -->
+        <version>4.2.2</version> <!-- This too -->
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
 
     <build>

@@ -6,8 +6,11 @@ import de.flamefoxes.prebuild.configuration.Themes;
 import de.flamefoxes.prebuild.event.AdminInventoryInteractListener;
 import de.flamefoxes.prebuild.event.CancelledBlockListener;
 import de.flamefoxes.prebuild.event.JoinTeleportListener;
-import de.flamefoxes.prebuild.ineventory.AdminInventory;
+import de.flamefoxes.prebuild.event.RegisterInventoryInteractListener;
+import de.flamefoxes.prebuild.ineventory.PlayerInventory;
 import de.flamefoxes.prebuild.sql.Mysql;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PreBuilding extends JavaPlugin {
@@ -16,7 +19,8 @@ public class PreBuilding extends JavaPlugin {
     public static final String PREFIX = "§7[§eVorbau-Server§7] §8| §r";
     private Themes themes;
     private Locations locations;
-    private AdminInventory adminInventory;
+    private PlayerInventory playerInventory;
+    private boolean registerProcess = false;
 
     @Override
     public void onEnable() {
@@ -25,18 +29,16 @@ public class PreBuilding extends JavaPlugin {
 
     private void init() {
         Mysql mysql = new Mysql(
-                "localhost",
-                "test123",
-                "123456789",
-                "test123",
+                "192.168.1.102",
+                "pre_build",
+                "j6QkFrVNm1nezoU8",
+                "pre_build",
                 3306
         );
         themes = new Themes();
         locations = new Locations();
-        adminInventory = new AdminInventory();
+        playerInventory = new PlayerInventory();
         mysql.createTable();
-        getCommand("start").setExecutor(new StartCommand(this));
-        getCommand("contact").setExecutor(new ContactCommand());
         getCommand("finish").setExecutor(new FinishCommand(this));
         getCommand("setspawn").setExecutor(new SetupCommand(this));
         getCommand("admin").setExecutor(new AdminCommand(this));
@@ -44,7 +46,19 @@ public class PreBuilding extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new JoinTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new CancelledBlockListener(), this);
         getServer().getPluginManager().registerEvents(new AdminInventoryInteractListener(this), this);
-        themes.setDefaultThemes();
+        getServer().getPluginManager().registerEvents(new RegisterInventoryInteractListener(this), this);
+        themes.setDefaultFantasyThemes();
+        themes.setDefaultIdyllicThemes();
+        themes.setDefaultOldThemes();
+        themes.setDefaultNaturalThemes();
+        themes.setDefaultModernThemes();
+        themes.setDefaultPostThemes();
+        for(World worlds : Bukkit.getWorlds()) {
+            getServer().getWorld(worlds.getName()).setStorm(false);
+            getServer().getWorld(worlds.getName()).setGameRuleValue("randomTickSpeed", "0");
+            getServer().getWorld(worlds.getName()).setGameRuleValue("doDaylightCycle", "false");
+            getServer().getWorld(worlds.getName()).setTime(1000);
+        }
     }
 
     public Themes themes() {
@@ -53,5 +67,13 @@ public class PreBuilding extends JavaPlugin {
 
     public Locations locations() { return this.locations; }
 
-    public AdminInventory adminInventory() { return this.adminInventory; }
+    public PlayerInventory playerInventory() { return this.playerInventory; }
+
+    public boolean registerProcess() {
+        return registerProcess;
+    }
+
+    public void registerProcess(boolean registerProcess) {
+        this.registerProcess = registerProcess;
+    }
 }

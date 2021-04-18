@@ -8,6 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
 public class CancelledBlockListener implements Listener {
     private final PrePlayer prePlayer;
@@ -34,5 +37,20 @@ public class CancelledBlockListener implements Listener {
             return;
         }
         blockBreakEvent.setCancelled(false);
+    }
+
+    @EventHandler
+    public void blockDamageByEntity(EntityDamageByEntityEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void blockDamageByBlock(EntityDamageByBlockEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void blockDamage(EntityDamageEvent event) {
+        event.setCancelled(true);
     }
 }

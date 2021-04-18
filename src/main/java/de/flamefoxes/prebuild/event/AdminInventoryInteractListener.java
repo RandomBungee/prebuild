@@ -17,10 +17,10 @@ public class AdminInventoryInteractListener implements Listener {
     public void teleportToPlot(InventoryClickEvent inventoryClickEvent) {
          Player player = (Player)inventoryClickEvent.getWhoClicked();
          try {
-             if(inventoryClickEvent.getInventory().getName().equalsIgnoreCase("§7Spieler-Liste")) {
+             if(inventoryClickEvent.getView().getTitle().equalsIgnoreCase("§7Spieler-Liste")) {
                 String playerName
-                        = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§8» §7", "");
-                preBuilding.getServer().dispatchCommand(player, "p teleport " + playerName);
+                        = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§8» ", "");
+                preBuilding.getServer().dispatchCommand(player, "mv tp " + playerName);
                 player.closeInventory();
              }
          } catch (Exception ignore) {}

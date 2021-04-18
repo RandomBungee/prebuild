@@ -21,7 +21,7 @@ public class AdminCommand implements CommandExecutor {
     ) {
         if(!checkCommandComponents(commandSender, command)) {
             Player player = (Player)commandSender;
-            preBuilding.adminInventory().createInventory(player);
+            preBuilding.playerInventory().createAdminInventory(player);
         }
         return false;
     }

@@ -1,7 +1,6 @@
 package de.flamefoxes.prebuild.event;
 
 import de.flamefoxes.prebuild.PreBuilding;
-import de.flamefoxes.prebuild.score.Score;
 import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
@@ -22,14 +21,23 @@ public class JoinTeleportListener implements Listener {
     @EventHandler
     public void playerTeleportToSpawn(PlayerJoinEvent joinEvent) {
         Player player = joinEvent.getPlayer();
-        player.teleport(preBuilding.locations().location("spawn"));
-        player.sendMessage(PreBuilding.PREFIX + "§7Wilkommen auf dem Bau-Server!");
-        player.sendMessage(PreBuilding.PREFIX + "§7Solltest du noch kein Plot haben gebe §c/start §7ein!");
-        player.sendMessage(PreBuilding.PREFIX + "§7Bist du fertig mit deinem Plot? §aDann gebe §c/finish §aein!");
         if(!prePlayer.exist(player.getName())) {
-            prePlayer.create(player.getName(), null, null, null, 0, 0, null);
+            player.teleport(preBuilding.locations().location("spawn"));
+            preBuilding.playerInventory().createIntroductionInventory(player);
+            preBuilding.registerProcess(true);
         }
-        Score.setScoreboard(player);
         joinEvent.setJoinMessage(null);
+        if(prePlayer.status(player.getName()) == 1) {
+            player.sendMessage(PreBuilding.PREFIX + "§7Wilkommen auf dem Bau-Server!");
+            player.sendMessage(PreBuilding.PREFIX + "§7Bist du fertig mit deiner Welt? §aDann gebe §c/finish §aein!");
+            return;
+        }
+        if(prePlayer.status(player.getName()) == 2) {
+            player.sendMessage(PreBuilding.PREFIX + "§7Deine vorgebaute Welt wurde §aangenommen");
+            return;
+        }
+        if(prePlayer.status(player.getName()) == 3) {
+            player.sendMessage(PreBuilding.PREFIX + "§7Deine vorgebaute Welt wurde §cabgelehnt");
+        }
     }
 }

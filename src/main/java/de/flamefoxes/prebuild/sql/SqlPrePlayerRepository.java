@@ -21,12 +21,17 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String discord,
             int submitted,
             int status,
-      String checkKey
+            String checkKey,
+            String structure,
+            String style,
+            String plugin
     ) {
         try {
             PreparedStatement preparedStatement
-                    = connection.prepareStatement("INSERT INTO player_data (player_name,theme,email,discord,submitted,status,check_key) VALUES (?,?,?,?,?,?,?)");
-            createStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey);
+                    = connection.prepareStatement(
+                      "INSERT INTO player_data (player_name,theme,email,discord,submitted,status,check_key,structure,build_style,plugin) VALUES (?,?,?,?,?,?,?,?,?,?)"
+            );
+            createStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey, structure, style, plugin);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
             System.err.println("Can´t create Player in SQL: " + cantCreatePlayer.getMessage());
@@ -41,7 +46,10 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String discord,
             int submitted,
             int status,
-            String checkKey
+            String checkKey,
+            String structure,
+            String style,
+            String plugin
     ) throws SQLException {
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, theme);
@@ -50,6 +58,9 @@ public class SqlPrePlayerRepository implements PrePlayer {
         preparedStatement.setInt(5, submitted);
         preparedStatement.setInt(6, status);
         preparedStatement.setString(7, checkKey);
+        preparedStatement.setString(8, structure);
+        preparedStatement.setString(9, style);
+        preparedStatement.setString(10, plugin);
     }
 
     public void change(
@@ -59,14 +70,17 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String discord,
             int submitted,
             int status,
-             String checkKey
+            String checkKey,
+            String structure,
+            String style,
+            String plugin
     ) {
         try {
             PreparedStatement preparedStatement
                     = connection.prepareStatement(
-                            "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ?, check_key WHERE player_name = ?"
+                            "UPDATE player_data SET theme = ?, email = ?, discord = ?, submitted = ?, status = ?, check_key = ?, structure = ?, build_style = ?, plugin = ? WHERE player_name = ?"
             );
-            updateStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey);
+            updateStatement(preparedStatement, name, theme, email, discord, submitted, status, checkKey, structure, style, plugin);
             updateAndCloseStatement(preparedStatement);
         } catch (SQLException cantCreatePlayer) {
             System.err.println("Can´t update Player in SQL: " + cantCreatePlayer.getMessage());
@@ -81,15 +95,21 @@ public class SqlPrePlayerRepository implements PrePlayer {
             String discord,
             int submitted,
             int status,
-            String checkKey
+            String checkKey,
+            String structure,
+            String style,
+            String plugin
     ) throws SQLException {
         preparedStatement.setString(1, theme);
         preparedStatement.setString(2, email);
         preparedStatement.setString(3, discord);
         preparedStatement.setInt(4, submitted);
         preparedStatement.setInt(5, status);
-        preparedStatement.setString(6, name);
-        preparedStatement.setString(7, checkKey);
+        preparedStatement.setString(6, checkKey);
+        preparedStatement.setString(7, structure);
+        preparedStatement.setString(8, style);
+        preparedStatement.setString(9, plugin);
+        preparedStatement.setString(10, name);
     }
 
     public int submitted(String name) {
@@ -159,6 +179,78 @@ public class SqlPrePlayerRepository implements PrePlayer {
             return resultSet.getString("check_key");
         }
         return "";
+    }
+
+    @Override
+    public String structure(String name) {
+        try {
+            PreparedStatement preparedStatement
+              = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return structureStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Status: " + cantCatchStatus.getMessage());
+        }
+        return null;
+    }
+
+    private String structureStatement(
+      PreparedStatement preparedStatement,
+      String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("structure");
+        }
+        return null;
+    }
+
+    @Override
+    public String style(String name) {
+        try {
+            PreparedStatement preparedStatement
+              = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return styleStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Status: " + cantCatchStatus.getMessage());
+        }
+        return null;
+    }
+
+    private String styleStatement(
+      PreparedStatement preparedStatement,
+      String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("build_style");
+        }
+        return null;
+    }
+
+    @Override
+    public String plugin(String name) {
+        try {
+            PreparedStatement preparedStatement
+              = connection.prepareStatement("SELECT * FROM player_data WHERE player_name = ?");
+            return pluginStatement(preparedStatement, name);
+        } catch (SQLException cantCatchStatus) {
+            System.err.println("Can´t getting the Status: " + cantCatchStatus.getMessage());
+        }
+        return null;
+    }
+
+    private String pluginStatement(
+      PreparedStatement preparedStatement,
+      String name
+    ) throws SQLException {
+        preparedStatement.setString(1, name);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getString("plugin");
+        }
+        return null;
     }
 
     public String theme(String name) {

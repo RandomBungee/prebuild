@@ -1,0 +1,13 @@
+image: rvancea/maven-chrome-jdk8:latest
+
+build:
+  stage: build
+  script:
+    - mvn package
+  artifacts:
+    paths:
+      - target
+    expire_in: 30 days
+  only:
+    refs:
+      - master

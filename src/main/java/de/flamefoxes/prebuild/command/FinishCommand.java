@@ -5,6 +5,7 @@ import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import de.flamefoxes.prebuild.util.Algorithm;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,17 +33,15 @@ public class FinishCommand implements CommandExecutor {
         if(!checkCommandComponents(commandSender, command)) {
             Player player = (Player)commandSender;
             if(arguments.length == 0) {
-                if(!confirm.contains(player)) {
-                    if(!checkContact(player.getName())) {
+                int submitted = prePlayer.submitted(player.getName());
+                if(submitted != 1) {
+                    if(!confirm.contains(player)) {
                         confirm.add(player);
                         player.sendMessage(PreBuilding.PREFIX + "§7Bist du sicher das du dein Plot abgeben möchtest?");
-                        player.sendMessage(PreBuilding.PREFIX + "§7Wenn ja, dann gebe §c/finish confirm ein");
+                        player.sendMessage(PreBuilding.PREFIX + "§7Wenn ja, dann gebe §c/finish confirm §7ein");
                     } else {
-                        player.sendMessage(PreBuilding.PREFIX + "§cDu musst deine Kontakt-Daten noch angeben!");
-                        player.sendMessage(PreBuilding.PREFIX + "§cKontakt-Daten kannst du mit /contact ändern!");
+                        player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish confirm §7ein!");
                     }
-                } else {
-                    player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish confirm §7ein!");
                 }
             } else if(arguments.length == 1) {
                 if(arguments[0].equalsIgnoreCase("confirm")) {
@@ -51,9 +50,13 @@ public class FinishCommand implements CommandExecutor {
                         String theme = prePlayer.theme(player.getName());
                         String discord = prePlayer.discord(player.getName());
                         String email = prePlayer.email(player.getName());
-                        String checkKey = Algorithm.generate(16);
-                        prePlayer.change(player.getName(), theme, email, discord, 1, 1, checkKey);
+                        String checkKey = Algorithm.generate(10);
+                        String structure = prePlayer.structure(player.getName());
+                        String style = prePlayer.style(player.getName());
+                        String plugin = prePlayer.plugin(player.getName());
+                        prePlayer.change(player.getName(), theme, email, discord, 1, 1, checkKey, structure, style, plugin);
                         player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
+                        player.sendMessage(PreBuilding.PREFIX + "§aDeine ApplyID ist: " + checkKey);
                     } else {
                         player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish §7ein!");
                     }
@@ -71,13 +74,6 @@ public class FinishCommand implements CommandExecutor {
             return true;
         }
         if(!command.getName().equalsIgnoreCase("finish")) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean checkContact(String name) {
-        if(prePlayer.discord(name) == null || prePlayer.email(name) == null) {
             return true;
         }
         return false;

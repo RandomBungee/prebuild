@@ -4,6 +4,7 @@ import de.flamefoxes.prebuild.PreBuilding;
 import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,11 +31,14 @@ public class StatusCommand implements CommandExecutor {
             String discord = prePlayer.discord(targetName);
             int submitted = prePlayer.submitted(targetName);
             String checkKey = prePlayer.checkKey(player.getName());
+            String structure = prePlayer.structure(player.getName());
+            String style = prePlayer.style(player.getName());
+            String plugin = prePlayer.plugin(player.getName());
             if(statusChange.equalsIgnoreCase("angenommen")) {
-                prePlayer.change(targetName, theme, email, discord, submitted, 2, checkKey);
+                prePlayer.change(targetName, theme, email, discord, submitted, 2, checkKey, structure, style, plugin);
                 player.sendMessage(PreBuilding.PREFIX + "§7Du hast die Bewerbung von §e" + targetName + " §aangenommen§7!");
             } else if(statusChange.equalsIgnoreCase("abgelehnt")) {
-                prePlayer.change(targetName, theme, email, discord, submitted, 3, checkKey);
+                prePlayer.change(targetName, theme, email, discord, submitted, 3, checkKey, structure, style, plugin);
                 player.sendMessage(PreBuilding.PREFIX + "§7Du hast die Bewerbung von §e" + targetName + " §cabgelehnt§7!");
             }
         }
