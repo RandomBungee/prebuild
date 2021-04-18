@@ -5,22 +5,16 @@ import de.flamefoxes.prebuild.sql.Mysql;
 import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import de.flamefoxes.prebuild.util.Algorithm;
-import java.util.List;
+import java.util.ArrayList;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent;
-import net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer;
-import net.minecraft.server.v1_16_R3.PacketPlayOutChat;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 public class FinishCommand implements CommandExecutor {
     private final PreBuilding preBuilding;
