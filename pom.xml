@@ -10,8 +10,8 @@
 
     <repositories>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+            <id>maven-releases</id>
+            <url>https://nexus.flamefoxes.de/repository/maven-releases/</url>
         </repository>
       <repository>
         <id>OnARandomBox</id>
@@ -20,17 +20,16 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
       <dependency>
         <groupId>com.onarandombox.multiversecore</groupId> <!-- Don't forget to replace this -->
         <artifactId>Multiverse-Core</artifactId> <!-- Replace this as well -->
         <version>4.2.2</version> <!-- This too -->
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.spigotmc</groupId>
+        <artifactId>spigot-api</artifactId>
+        <version>1.16.5-R0.1</version>
       </dependency>
     </dependencies>
 
