@@ -6,9 +6,18 @@ import de.flamefoxes.prebuild.sql.PrePlayer;
 import de.flamefoxes.prebuild.sql.SqlPrePlayerRepository;
 import de.flamefoxes.prebuild.util.Algorithm;
 import java.util.List;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.HoverEvent.Action;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_16_R3.IChatBaseComponent;
+import net.minecraft.server.v1_16_R3.IChatBaseComponent.ChatSerializer;
+import net.minecraft.server.v1_16_R3.PacketPlayOutChat;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -56,7 +65,10 @@ public class FinishCommand implements CommandExecutor {
                         String plugin = prePlayer.plugin(player.getName());
                         prePlayer.change(player.getName(), theme, email, discord, 1, 1, checkKey, structure, style, plugin);
                         player.sendMessage(PreBuilding.PREFIX + "§aDu hast dein Plot abgeben!");
-                        player.sendMessage(PreBuilding.PREFIX + "§aDeine ApplyID ist: " + checkKey);
+                        TextComponent textComponent  = new TextComponent(PreBuilding.PREFIX + "§aDeine ApplyID ist: " + checkKey);
+                        textComponent.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Klicke hier um deine ApplyID zu kopieren").create()));
+                        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, checkKey));
+                        player.spigot().sendMessage(textComponent);
                     } else {
                         player.sendMessage(PreBuilding.PREFIX + "§7Bitte gebe §c/finish §7ein!");
                     }

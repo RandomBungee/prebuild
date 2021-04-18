@@ -20,8 +20,9 @@ public class AdminInventoryInteractListener implements Listener {
              if(inventoryClickEvent.getView().getTitle().equalsIgnoreCase("§7Spieler-Liste")) {
                 String playerName
                         = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§8» ", "");
-                preBuilding.getServer().dispatchCommand(player, "mv tp " + playerName);
-                player.closeInventory();
+               player.closeInventory();
+               preBuilding.getServer().dispatchCommand(player, "mv tp " + playerName);
+               preBuilding.getServer().dispatchCommand(player, "mv confirm");
              }
          } catch (Exception ignore) {}
     }

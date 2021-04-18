@@ -28,12 +28,19 @@ public class PreBuilding extends JavaPlugin {
     }
 
     private void init() {
-        Mysql mysql = new Mysql(
+       /* Mysql mysql = new Mysql(
                 "192.168.1.102",
                 "pre_build",
                 "j6QkFrVNm1nezoU8",
                 "pre_build",
                 3306
+        );*/
+        Mysql mysql = new Mysql(
+          "127.0.0.1",
+          "test123",
+          "123456789",
+          "test123",
+          3306
         );
         themes = new Themes();
         locations = new Locations();
