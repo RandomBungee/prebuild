@@ -1,8 +1,10 @@
 package de.flamefoxes.build.player;
 
+import java.util.UUID;
+
 public class BuildPlayer {
   private String name;
-  private String uniqueId;
+  private UUID uniqueId;
   private String theme;
   private String structureKind;
   private String buildStyle;
@@ -17,7 +19,7 @@ public class BuildPlayer {
     return name;
   }
 
-  public String getUniqueId() {
+  public UUID getUniqueId() {
     return uniqueId;
   }
 
@@ -51,7 +53,7 @@ public class BuildPlayer {
 
   public static final class Builder {
     private String name;
-    private String uniqueId;
+    private UUID uniqueId;
     private String theme;
     private String structureKind;
     private String buildStyle;
@@ -63,7 +65,7 @@ public class BuildPlayer {
       return buildPartial();
     }
 
-    public BuildPlayer buildPartial() {
+    private BuildPlayer buildPartial() {
       BuildPlayer result = new BuildPlayer();
       result.name = name;
       result.uniqueId = uniqueId;
@@ -81,7 +83,7 @@ public class BuildPlayer {
       return this;
     }
 
-    public Builder setUniqueId(String uniqueId) {
+    public Builder setUniqueId(UUID uniqueId) {
       this.uniqueId = uniqueId;
       return this;
     }

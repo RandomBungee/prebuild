@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class SqlBuildPlayer implements IBuildPlayer {
   private final Connection connection;
@@ -33,7 +34,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     BuildPlayer buildPlayer
   ) throws SQLException {
     preparedStatement.setString(1, buildPlayer.getName());
-    preparedStatement.setString(2, buildPlayer.getUniqueId());
+    preparedStatement.setString(2, buildPlayer.getUniqueId().toString());
     preparedStatement.setString(3, buildPlayer.getTheme());
     preparedStatement.setInt(4, buildPlayer.getSubmitted());
     preparedStatement.setInt(5, buildPlayer.getApplyKey());
@@ -66,12 +67,12 @@ public class SqlBuildPlayer implements IBuildPlayer {
     preparedStatement.setString(5, buildPlayer.getStructureKind());
     preparedStatement.setString(6, buildPlayer.getBuildStyle());
     preparedStatement.setString(7, buildPlayer.getPluginKind());
-    preparedStatement.setString(8, buildPlayer.getUniqueId());
+    preparedStatement.setString(8, buildPlayer.getUniqueId().toString());
     updateAndCloseStatement(preparedStatement);
   }
 
   @Override
-  public List<String> buildPlayersUnique() {
+  public List<String> buildPlayers() {
     try {
       PreparedStatement preparedStatement =
         connection.prepareStatement("SELECT * FROM player_data");
@@ -93,8 +94,65 @@ public class SqlBuildPlayer implements IBuildPlayer {
   }
 
   @Override
-  public Optional<BuildPlayer> find(String uniqueId) {
+  public Optional<BuildPlayer> find(UUID uniqueId) {
+    try {
+      PreparedStatement preparedStatement
+        = connection.prepareStatement("SELECT * FROM player_data WHERE unique_id = ?");
+      return findStatement(preparedStatement, uniqueId);
+    } catch (SQLException cantCatchPlayer) {
+      System.err.println("Can´t catch Player: " + cantCatchPlayer.getMessage());
+    }
     return Optional.empty();
+  }
+
+  private Optional<BuildPlayer> findStatement(
+    PreparedStatement preparedStatement,
+    UUID uniqueId
+  ) throws SQLException {
+    preparedStatement.setString(1, uniqueId.toString());
+    ResultSet resultSet = preparedStatement.executeQuery();
+    if(resultSet.next()) {
+      String name = resultSet.getString("player_name");
+      String theme = resultSet.getString("theme");
+      String structureKind = resultSet.getString("structure");
+      String buildStyle = resultSet.getString("build_style");
+      String pluginKind = resultSet.getString("plugin");
+      int submitted = resultSet.getInt("submitted");
+      int applyKey = resultSet.getInt("check:_key");
+      BuildPlayer buildPlayer = BuildPlayer.newBuilder()
+        .setName(name)
+        .setUniqueId(uniqueId)
+        .setTheme(theme)
+        .setStructureKind(structureKind)
+        .setBuildStyle(buildStyle)
+        .setPluginKind(pluginKind)
+        .setSubmitted(submitted)
+        .setApplyKey(applyKey)
+        .build();
+      return Optional.of(buildPlayer);
+    }
+    return Optional.empty();
+  }
+
+  @Override
+  public boolean exist(UUID uniqueId) {
+    try {
+      PreparedStatement preparedStatement
+        = connection.prepareStatement("SELECT * FROM player_data WHERE unique_id = ?");
+      return existStatement(preparedStatement, uniqueId);
+    } catch (SQLException cantCheckPlayerExist) {
+      System.err.println("Can´t check if Player exist: " + cantCheckPlayerExist.getMessage());
+    }
+    return false;
+  }
+
+  private boolean existStatement(
+    PreparedStatement preparedStatement,
+    UUID uniqueId
+  ) throws SQLException {
+    preparedStatement.setString(1, uniqueId.toString());
+    ResultSet resultSet = preparedStatement.executeQuery();
+    return resultSet.next();
   }
 
   private void updateAndCloseStatement(PreparedStatement preparedStatement) throws SQLException {
