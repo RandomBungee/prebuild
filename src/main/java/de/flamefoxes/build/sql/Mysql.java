@@ -1,8 +1,6 @@
 package de.flamefoxes.build.sql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Mysql {
   private final String host;

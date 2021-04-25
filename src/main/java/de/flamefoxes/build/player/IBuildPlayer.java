@@ -1,8 +1,6 @@
 package de.flamefoxes.build.player;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface IBuildPlayer {
   void create(BuildPlayer buildPlayer);

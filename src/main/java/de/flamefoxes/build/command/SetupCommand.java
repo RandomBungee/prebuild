@@ -1,10 +1,8 @@
 package de.flamefoxes.build.command;
 
-import de.flamefoxes.build.BuildUtil;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import de.flamefoxes.build.*;
+import org.bukkit.command.*;
+import org.bukkit.entity.*;
 
 public class SetupCommand implements CommandExecutor {
   private final BuildUtil buildUtil;

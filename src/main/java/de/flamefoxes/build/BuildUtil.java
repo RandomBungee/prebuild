@@ -1,14 +1,8 @@
 package de.flamefoxes.build;
 
-import de.flamefoxes.build.command.AdminCommand;
-import de.flamefoxes.build.command.FinishCommand;
-import de.flamefoxes.build.command.SetupCommand;
-import de.flamefoxes.build.config.Locations;
-import de.flamefoxes.build.config.Themes;
-import de.flamefoxes.build.listener.AdminInventoryInteractListener;
-import de.flamefoxes.build.listener.CanceledBlockInteractListener;
-import de.flamefoxes.build.listener.PlayerInitialListener;
-import de.flamefoxes.build.listener.RegisterInventoryClickListener;
+import de.flamefoxes.build.command.*;
+import de.flamefoxes.build.config.*;
+import de.flamefoxes.build.listener.*;
 import de.flamefoxes.build.sql.Mysql;
 import de.flamefoxes.build.util.PlayerInventory;
 import org.bukkit.plugin.PluginManager;
@@ -29,10 +23,10 @@ public class BuildUtil {
 
   public void initial() {
     mysql = new Mysql(
-      "",
-      "",
-      "",
-      "",
+      "localhost",
+      "test123",
+      "123456789",
+      "test123",
       3306
     );
     mysql.connect();
@@ -45,6 +39,7 @@ public class BuildUtil {
 
   public void deinitialize() {
     mysql.closeConnection();
+    System.out.println("Plugin was disabled");
   }
   
   public void registerCommands() {

@@ -1,21 +1,13 @@
 package de.flamefoxes.build.util;
 
-import de.flamefoxes.build.player.BuildPlayer;
-import de.flamefoxes.build.player.IBuildPlayer;
-import de.flamefoxes.build.player.SqlBuildPlayer;
+import de.flamefoxes.build.player.*;
 import de.flamefoxes.build.sql.Mysql;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import java.util.*;
+import org.bukkit.*;
+import org.bukkit.entity.*;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.*;
 
 public class PlayerInventory {
   private final IBuildPlayer iBuildPlayer;

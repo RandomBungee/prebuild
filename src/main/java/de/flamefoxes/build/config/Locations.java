@@ -1,13 +1,9 @@
 package de.flamefoxes.build.config;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.*;
+import org.bukkit.configuration.file.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class Locations {
   public Locations() {}

@@ -1,10 +1,9 @@
 package de.flamefoxes.build.listener;
 
-import de.flamefoxes.build.BuildUtil;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import de.flamefoxes.build.*;
+import org.bukkit.entity.*;
+import org.bukkit.event.*;
+import org.bukkit.event.inventory.*;
 
 public class AdminInventoryInteractListener implements Listener {
   private final BuildUtil buildUtil;

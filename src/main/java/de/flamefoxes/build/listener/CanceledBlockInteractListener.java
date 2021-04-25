@@ -1,19 +1,12 @@
 package de.flamefoxes.build.listener;
 
-import de.flamefoxes.build.player.BuildPlayer;
-import de.flamefoxes.build.player.IBuildPlayer;
-import de.flamefoxes.build.player.SqlBuildPlayer;
-import de.flamefoxes.build.sql.Mysql;
-import java.util.Optional;
-import java.util.UUID;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import de.flamefoxes.build.player.*;
+import de.flamefoxes.build.sql.*;
+import java.util.*;
+import org.bukkit.entity.*;
+import org.bukkit.event.*;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.*;
 
 public class CanceledBlockInteractListener implements Listener {
   private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);

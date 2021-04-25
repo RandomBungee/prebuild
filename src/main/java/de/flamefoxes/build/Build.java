@@ -16,6 +16,6 @@ public class Build extends JavaPlugin {
 
   @Override
   public void onDisable() {
-
+    buildUtil.deinitialize();
   }
 }

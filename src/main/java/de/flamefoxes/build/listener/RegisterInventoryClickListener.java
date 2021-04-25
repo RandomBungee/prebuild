@@ -1,32 +1,19 @@
 package de.flamefoxes.build.listener;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import de.flamefoxes.build.BuildUtil;
-import de.flamefoxes.build.player.BuildPlayer;
-import de.flamefoxes.build.player.IBuildPlayer;
-import de.flamefoxes.build.player.SqlBuildPlayer;
-import de.flamefoxes.build.sql.Mysql;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
+import com.onarandombox.MultiverseCore.*;
+import com.onarandombox.MultiverseCore.api.*;
+import de.flamefoxes.build.*;
+import de.flamefoxes.build.player.*;
+import de.flamefoxes.build.sql.*;
+import java.util.*;
+import org.bukkit.*;
+import org.bukkit.enchantments.*;
+import org.bukkit.entity.*;
+import org.bukkit.event.*;
+import org.bukkit.event.inventory.*;
+import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.*;
+import org.bukkit.scheduler.*;
 
 public class RegisterInventoryClickListener implements Listener {
   private final BuildUtil buildUtil;

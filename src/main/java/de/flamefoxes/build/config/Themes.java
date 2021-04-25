@@ -1,10 +1,8 @@
 package de.flamefoxes.build.config;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import java.io.*;
+import java.util.*;
+import org.bukkit.configuration.file.*;
 
 public class Themes {
   public Themes() {}

@@ -1,23 +1,14 @@
 package de.flamefoxes.build.command;
 
-import de.flamefoxes.build.BuildUtil;
-import de.flamefoxes.build.player.BuildPlayer;
-import de.flamefoxes.build.player.IBuildPlayer;
-import de.flamefoxes.build.player.SqlBuildPlayer;
-import de.flamefoxes.build.sql.Mysql;
-import de.flamefoxes.build.util.Algorithm;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
+import de.flamefoxes.build.*;
+import de.flamefoxes.build.player.*;
+import de.flamefoxes.build.sql.*;
+import de.flamefoxes.build.util.*;
+import java.util.*;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.command.*;
+import org.bukkit.entity.*;
 
 public class FinishCommand implements CommandExecutor {
   private final BuildUtil buildUtil;
