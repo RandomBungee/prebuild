@@ -9,4 +9,6 @@ commands:
   finish:
   setspawn:
   admin:
-  status:
+  info:
+    aliases:
+      - information:

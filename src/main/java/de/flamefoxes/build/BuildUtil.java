@@ -46,6 +46,7 @@ public class BuildUtil {
     build.getCommand("admin").setExecutor(new AdminCommand(this));
     build.getCommand("finish").setExecutor(new FinishCommand(this));
     build.getCommand("setspawn").setExecutor(new SetupCommand(this));
+    build.getCommand("info").setExecutor(new InformationCommand(this));
   }
 
   public void registerListeners() {
