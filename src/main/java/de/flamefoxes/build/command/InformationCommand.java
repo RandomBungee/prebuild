@@ -7,6 +7,7 @@ import de.flamefoxes.build.player.SqlBuildPlayer;
 import de.flamefoxes.build.sql.Mysql;
 import java.util.Optional;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,16 +33,44 @@ public class InformationCommand implements CommandExecutor {
       return true;
     }
     Player player = (Player)commandSender;
-    Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
-    BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
-    String theme = buildPlayer.getTheme();
-    String submitted =  (buildPlayer.getSubmitted() != 0) ? "§cNich abgegeben" : "§aAbgegeben";
-    String applyKey = String.valueOf(buildPlayer.getApplyKey());
-    player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
-    player.sendMessage(BuildUtil.PREFIX + "§7Bauthema: " + theme);
-    player.sendMessage(BuildUtil.PREFIX + "§7Status: " + submitted);
-    player.sendMessage(BuildUtil.PREFIX + "§7Apply-Key: " + applyKey);
-    player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
+    if(arguments.length == 0) {
+      Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
+      BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
+      String theme = buildPlayer.getTheme();
+      String submitted =  (buildPlayer.getSubmitted() != 0) ?  "§aAbgegeben" : "§cNicht abgegeben";
+      String applyKey = buildPlayer.getApplyKey();
+      player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
+      player.sendMessage(BuildUtil.PREFIX + "§7Bauthema: " + theme);
+      player.sendMessage(BuildUtil.PREFIX + "§7Status: " + submitted);
+      player.sendMessage(BuildUtil.PREFIX + "§7Apply-Key: " + applyKey);
+      player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
+      return true;
+    }
+    if(arguments.length == 1) {
+      if(!player.hasPermission("prebuild.command.info")) {
+        player.sendMessage(BuildUtil.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
+        return true;
+      }
+      try {
+        String playerName = arguments[0];
+        UUID uuid = Bukkit.getPlayer(playerName).getUniqueId();
+        Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(uuid);
+        BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
+        String theme = buildPlayer.getTheme();
+        String submitted =  (buildPlayer.getSubmitted() != 0) ?  "§aAbgegeben" : "§cNicht abgegeben";
+        String pluginKind = buildPlayer.getPluginKind();
+        String structureKind = buildPlayer.getStructureKind();
+        String buildStyle = buildPlayer.getBuildStyle();
+        player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
+        player.sendMessage(BuildUtil.PREFIX + "§7Player: " + playerName);
+        player.sendMessage(BuildUtil.PREFIX + "§7Bauthema: " + theme);
+        player.sendMessage(BuildUtil.PREFIX + "§7Status: " + submitted);
+        player.sendMessage(BuildUtil.PREFIX + "§7Plugins: " + pluginKind);
+        player.sendMessage(BuildUtil.PREFIX + "§7Strukturen: " + structureKind);
+        player.sendMessage(BuildUtil.PREFIX + "§7Baustyle: " + buildStyle);
+        player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
+      } catch (Exception ignore) {}
+    }
     return false;
   }
 
@@ -63,7 +92,7 @@ public class InformationCommand implements CommandExecutor {
     return BuildPlayer.newBuilder()
       .setName("")
       .setUniqueId(UUID.randomUUID())
-      .setApplyKey(0)
+      .setApplyKey("0")
       .setSubmitted(0)
       .setPluginKind("")
       .setBuildStyle("")

@@ -33,7 +33,8 @@ public class RegisterInventoryClickListener implements Listener {
     Player player = (Player) inventoryClickEvent.getWhoClicked();
     try {
       if (inventoryClickEvent.getView().getTitle()
-        .equalsIgnoreCase("§7Datenschutzerklärung")) {
+        .equalsIgnoreCase("§7Schaue dir unser Video an!")) {
+        inventoryClickEvent.setCancelled(true);
         if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
@@ -56,6 +57,7 @@ public class RegisterInventoryClickListener implements Listener {
     try {
       if (inventoryClickEvent.getView().getTitle()
       .equalsIgnoreCase("§7Datenschutzerklärung")) {
+        inventoryClickEvent.setCancelled(true);
         if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
@@ -79,14 +81,17 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Welche Plguins beherrscht du?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+          && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
-          plugins.add(item.replaceAll("§7", ""));
-          plugin.put(player, transformListToString(plugins));
-          buildUtil.inventory().inventory.setItem(
-            inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
-              inventoryClickEvent.getCurrentItem().getType())
-          );
+          if(!plugins.contains(item.replaceAll("§7", ""))) {
+            plugins.add(item.replaceAll("§7", ""));
+            plugin.put(player, transformListToString(plugins));
+            buildUtil.inventory().inventory.setItem(
+              inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
+                inventoryClickEvent.getCurrentItem().getType())
+            );
+          }
         }
         if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
@@ -115,14 +120,17 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Was beherrscht du gut?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+          && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
-          structures.add(item.replaceAll("§7", ""));
-          structure.put(player, transformListToString(structures));
-          buildUtil.inventory().inventory.setItem(
-            inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
-              inventoryClickEvent.getCurrentItem().getType())
-          );
+          if(!structures.contains(item.replaceAll("§7", ""))) {
+            structures.add(item.replaceAll("§7", ""));
+            structure.put(player, transformListToString(structures));
+            buildUtil.inventory().inventory.setItem(
+              inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
+                inventoryClickEvent.getCurrentItem().getType())
+            );
+          }
         }
         if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
@@ -151,7 +159,8 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Was für Baustile beherrscht du gut?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+          && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
           style.put(player, item.replace("§e", ""));
           buildUtil.inventory()
@@ -180,35 +189,38 @@ public class RegisterInventoryClickListener implements Listener {
     try {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Fertig? Bist du bereit?")) {
-        buildUtil.registerProcess(false);
-        player.closeInventory();
-        String theme = pickRandomTheme(player);
-        String structures = structure.get(player);
-        String styles = style.get(player);
-        String plugins = plugin.get(player);
-        BuildPlayer buildPlayer = createPlayer(player, theme, plugins, styles, structures);
-        iBuildPlayer.create(buildPlayer);
-        MultiverseCore multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager mvWorldManager = multiverseCore.getMVWorldManager();
-        mvWorldManager.cloneWorld("build_template", player.getName());
-        World world = Bukkit.getWorld(player.getName());
-        MultiverseWorld multiverseWorld = mvWorldManager.getMVWorld(world);
-        world.setStorm(false);
-        world.setTime(1000);
-        world.setGameRuleValue("randomTickSpeed", "0");
-        world.setGameRuleValue("doDaylightCycle", "false");
-        multiverseWorld.setGameMode(GameMode.CREATIVE);
-        Location location = new Location(world, 0, 64, 0);
-        player.teleport(location);
-        player.sendMessage(
-          BuildUtil.PREFIX + "§7Du hast die Registration abgeschlossen! Dein Bauthema ist: §e"
-            + theme +
-            "§7. §7Wir wünschen dir Viel Erfolg und Viel Spaß! "
-        );
+        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aLos gehts!")) {
+          buildUtil.registerProcess(false);
+          player.closeInventory();
+          String theme = pickRandomTheme(player);
+          String structures = structure.get(player);
+          String styles = style.get(player);
+          String plugins = plugin.get(player);
+          BuildPlayer buildPlayer = createPlayer(player, theme, plugins, styles, structures);
+          iBuildPlayer.create(buildPlayer);
+          MultiverseCore multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+          MVWorldManager mvWorldManager = multiverseCore.getMVWorldManager();
+          mvWorldManager.cloneWorld("build_template", player.getName());
+          World world = Bukkit.getWorld(player.getName());
+          MultiverseWorld multiverseWorld = mvWorldManager.getMVWorld(world);
+          world.setStorm(false);
+          world.setTime(1000);
+          world.setGameRuleValue("randomTickSpeed", "0");
+          world.setGameRuleValue("doDaylightCycle", "false");
+          multiverseWorld.setGameMode(GameMode.CREATIVE);
+          Location location = new Location(world, 0, 64, 0);
+          player.teleport(location);
+          player.sendMessage(
+            BuildUtil.PREFIX + "§7Du hast die Registration abgeschlossen! Dein Bauthema ist: §e"
+              + theme +
+              "§7. §7Wir wünschen dir Viel Erfolg und Viel Spaß! "
+          );
+        }
       }
     } catch (Exception ignore) {}
   }
 
+  @EventHandler
   public void abortRegistration(InventoryCloseEvent inventoryCloseEvent) {
     Player player = (Player)inventoryCloseEvent.getPlayer();
     if(buildUtil.registerProcess()) {
@@ -234,7 +246,7 @@ public class RegisterInventoryClickListener implements Listener {
     return BuildPlayer.newBuilder()
       .setName(player.getName())
       .setUniqueId(player.getUniqueId())
-      .setApplyKey(0)
+      .setApplyKey("0")
       .setSubmitted(0)
       .setPluginKind(pluginKind)
       .setBuildStyle(buildStyle)

@@ -10,7 +10,7 @@ public class BuildPlayer {
   private String buildStyle;
   private String pluginKind;
   private int submitted;
-  private int applyKey;
+  private String applyKey;
   public static final Builder BUILDER = new Builder();
 
   public BuildPlayer() {}
@@ -43,7 +43,7 @@ public class BuildPlayer {
     return submitted;
   }
 
-  public int getApplyKey() {
+  public String getApplyKey() {
     return applyKey;
   }
 
@@ -59,7 +59,7 @@ public class BuildPlayer {
     private String buildStyle;
     private String pluginKind;
     private int submitted;
-    private int applyKey;
+    private String applyKey;
 
     public BuildPlayer build() {
       return buildPartial();
@@ -113,7 +113,7 @@ public class BuildPlayer {
       return this;
     }
 
-    public Builder setApplyKey(int applyKey) {
+    public Builder setApplyKey(String applyKey) {
       this.applyKey = applyKey;
       return this;
     }

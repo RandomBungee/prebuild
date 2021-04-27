@@ -24,7 +24,7 @@ public class PlayerInventory {
     if(kind.equals("list")) {
       inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Spieler-List");
       for(String players : iBuildPlayer.buildPlayers()) {
-        String name = UUIDFetcher.getName(UUID.fromString(players));
+        String name = Bukkit.getPlayer(UUID.fromString(players)).getName();
         inventory.addItem(createPlayerHead("§8» " + name, name, lore(UUID.fromString(players))));
       }
       player.openInventory(inventory);
@@ -45,7 +45,7 @@ public class PlayerInventory {
       return;
     }
     if(kind.equals("plugin")) {
-      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Welche Plugins beherrscht du gut?");
+      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Welche Plguins beherrscht du?");
       setDefaultItems(inventory);
       inventory.setItem(25, createPlayerHead("§a>> Weiter", "MHF_ArrowRight"));
       inventory.setItem(2, createItem("§7WorldEdit", Material.WOODEN_AXE));
@@ -58,7 +58,7 @@ public class PlayerInventory {
       return;
     }
     if(kind.equals("structure")) {
-      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Welche Strukutren kannst du gut?");
+      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Was beherrscht du gut?");
       setDefaultItems(inventory);
       inventory.setItem(25, createPlayerHead("§a>> Weiter", "MHF_ArrowRight"));
       inventory.setItem(11, createItem("§7Architektonische Strukturen", Material.PAPER));
@@ -68,7 +68,7 @@ public class PlayerInventory {
       return;
     }
     if(kind.equals("style")) {
-      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Wähle dein Themen gebiet?");
+      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Was für Baustile beherrscht du gut?");
       setDefaultItems(inventory);
       inventory.setItem(3, createItem("§eFantasie", Material.SLIME_BALL));
       inventory.setItem(4, createItem("§eIdylisch", Material.MELON));
@@ -80,7 +80,7 @@ public class PlayerInventory {
       return;
     }
     if(kind.equals("finish")) {
-      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Wähle dein Themen gebiet?");
+      inventory = Bukkit.createInventory(null, InventoryType.CHEST, "§7Fertig? Bist du bereit?");
       inventory.setItem(13, createItem("§aLos gehts!", Material.LIME_DYE));
       player.openInventory(inventory);
     }
@@ -126,9 +126,9 @@ public class PlayerInventory {
   private List<String> lore(UUID uniqueId) {
     Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(uniqueId);
     BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
-    List<String> lores = new ArrayList<String>();
+    List<String> lores = new ArrayList<>();
     lores.add("§7Thema §8» §a" + buildPlayer.getTheme());
-    lores.add("§7Plotstatus §8» §a" + ((buildPlayer.getSubmitted() != 0) ? "§cNich abgegeben" : "§aAbgegeben"));
+    lores.add("§7Plotstatus §8» §a" + ((buildPlayer.getSubmitted() != 0) ? "§aAbgegeben" : "§cNicht abgegeben"));
     return lores;
   }
 
@@ -136,7 +136,7 @@ public class PlayerInventory {
     return BuildPlayer.newBuilder()
       .setName("")
       .setUniqueId(UUID.randomUUID())
-      .setApplyKey(0)
+      .setApplyKey("0")
       .setSubmitted(0)
       .setPluginKind("")
       .setBuildStyle("")

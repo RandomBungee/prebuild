@@ -11,13 +11,11 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 
 public class FinishCommand implements CommandExecutor {
-  private final BuildUtil buildUtil;
+
   private final ArrayList<Player> confirm = new ArrayList<>();
   private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);
 
-  public FinishCommand(BuildUtil buildUtil) {
-    this.buildUtil = buildUtil;
-  }
+  public FinishCommand() {}
 
   @Override
   public boolean onCommand(
@@ -30,9 +28,9 @@ public class FinishCommand implements CommandExecutor {
       return true;
     }
     Player player = (Player)commandSender;
-    Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
-    BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
     if(arguments.length == 0) {
+      Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
+      BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
       if(buildPlayer.getSubmitted() != 1) {
         if(!confirm.contains(player)) {
           confirm.add(player);
@@ -49,9 +47,11 @@ public class FinishCommand implements CommandExecutor {
 
     if (arguments[0].equals("confirm")) {
       if(confirm.contains(player)) {
+        Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
+        BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
         confirm.remove(player);
         String applyKey = Algorithm.generate(10);
-        iBuildPlayer.change(changedPlayer(buildPlayer, Integer.parseInt(applyKey)));
+        iBuildPlayer.change(changedPlayer(buildPlayer, applyKey));
         TextComponent textComponent  = new TextComponent(BuildUtil.PREFIX + "§aDeine ApplyID ist: " + applyKey);
         textComponent.setHoverEvent(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Klicke hier um deine ApplyID zu kopieren").create()));
         textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, applyKey));
@@ -79,7 +79,7 @@ public class FinishCommand implements CommandExecutor {
 
   private BuildPlayer changedPlayer(
     BuildPlayer player,
-    int applyKey
+    String applyKey
   ) {
     return BuildPlayer.newBuilder()
       .setName(player.getName())
@@ -97,7 +97,7 @@ public class FinishCommand implements CommandExecutor {
     return BuildPlayer.newBuilder()
       .setName("")
       .setUniqueId(UUID.randomUUID())
-      .setApplyKey(0)
+      .setApplyKey("0")
       .setSubmitted(0)
       .setPluginKind("")
       .setBuildStyle("")

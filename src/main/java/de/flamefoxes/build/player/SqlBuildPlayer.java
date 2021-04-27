@@ -31,7 +31,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     preparedStatement.setString(2, buildPlayer.getUniqueId().toString());
     preparedStatement.setString(3, buildPlayer.getTheme());
     preparedStatement.setInt(4, buildPlayer.getSubmitted());
-    preparedStatement.setInt(5, buildPlayer.getApplyKey());
+    preparedStatement.setString(5, buildPlayer.getApplyKey());
     preparedStatement.setString(6, buildPlayer.getStructureKind());
     preparedStatement.setString(7, buildPlayer.getBuildStyle());
     preparedStatement.setString(8, buildPlayer.getPluginKind());
@@ -45,6 +45,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
         = connection.prepareStatement(
           "UPDATE player_data SET player_name = ?,theme = ?,submitted = ?,check_key = ?,structure = ?,build_style = ?,plugin = ? WHERE unique_id = ?"
       );
+      changeStatement(preparedStatement, buildPlayer);
     } catch (SQLException cantUpdatePlayer) {
       System.err.println("Can´t update Player");
     }
@@ -57,7 +58,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     preparedStatement.setString(1, buildPlayer.getName());
     preparedStatement.setString(2, buildPlayer.getTheme());
     preparedStatement.setInt(3, buildPlayer.getSubmitted());
-    preparedStatement.setInt(4, buildPlayer.getApplyKey());
+    preparedStatement.setString(4, buildPlayer.getApplyKey());
     preparedStatement.setString(5, buildPlayer.getStructureKind());
     preparedStatement.setString(6, buildPlayer.getBuildStyle());
     preparedStatement.setString(7, buildPlayer.getPluginKind());
@@ -112,7 +113,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
       String buildStyle = resultSet.getString("build_style");
       String pluginKind = resultSet.getString("plugin");
       int submitted = resultSet.getInt("submitted");
-      int applyKey = resultSet.getInt("check:_key");
+      String applyKey = resultSet.getString("check_key");
       BuildPlayer buildPlayer = BuildPlayer.newBuilder()
         .setName(name)
         .setUniqueId(uniqueId)
@@ -147,6 +148,25 @@ public class SqlBuildPlayer implements IBuildPlayer {
     preparedStatement.setString(1, uniqueId.toString());
     ResultSet resultSet = preparedStatement.executeQuery();
     return resultSet.next();
+  }
+
+  @Override
+  public void delete(String playerName) {
+    try {
+      PreparedStatement preparedStatement
+        = connection.prepareStatement("DELETE FROM player_data WHERE player_name = ?");
+      deleteStatement(preparedStatement, playerName);
+    } catch (SQLException cantDeletePlayer) {
+      System.err.println("Can´t delete Player: " + cantDeletePlayer.getMessage());
+    }
+  }
+
+  private void deleteStatement(
+    PreparedStatement preparedStatement,
+    String playerName
+  ) throws SQLException {
+    preparedStatement.setString(1, playerName);
+    updateAndCloseStatement(preparedStatement);
   }
 
   private void updateAndCloseStatement(PreparedStatement preparedStatement) throws SQLException {

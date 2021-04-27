@@ -12,4 +12,6 @@ public interface IBuildPlayer {
   Optional<BuildPlayer> find(UUID uniqueId);
 
   boolean exist(UUID uniqueId);
+
+  void delete(String playerName);
 }

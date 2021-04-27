@@ -44,9 +44,10 @@ public class BuildUtil {
   
   public void registerCommands() {
     build.getCommand("admin").setExecutor(new AdminCommand(this));
-    build.getCommand("finish").setExecutor(new FinishCommand(this));
+    build.getCommand("finish").setExecutor(new FinishCommand());
     build.getCommand("setspawn").setExecutor(new SetupCommand(this));
     build.getCommand("info").setExecutor(new InformationCommand(this));
+    build.getCommand("delete").setExecutor(new DeleteCommand());
   }
 
   public void registerListeners() {

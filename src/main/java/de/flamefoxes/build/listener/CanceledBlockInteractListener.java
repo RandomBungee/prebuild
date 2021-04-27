@@ -32,7 +32,7 @@ public class CanceledBlockInteractListener implements Listener {
   @EventHandler
   public void checkPlayerAllowedToPlace(BlockPlaceEvent blockPlaceEvent) {
     Player player = blockPlaceEvent.getPlayer();
-    if(buildPlayer(player).getSubmitted() == 0) {
+    if(buildPlayer(player).getSubmitted() == 1) {
       blockPlaceEvent.setCancelled(true);
       return;
     }
@@ -42,7 +42,7 @@ public class CanceledBlockInteractListener implements Listener {
   @EventHandler
   public void checkPlayerAllowedToBreak(BlockBreakEvent blockBreakEvent) {
     Player player = blockBreakEvent.getPlayer();
-    if(buildPlayer(player).getSubmitted() == 0) {
+    if(buildPlayer(player).getSubmitted() == 1) {
       blockBreakEvent.setCancelled(true);
       return;
     }
@@ -58,7 +58,7 @@ public class CanceledBlockInteractListener implements Listener {
     return BuildPlayer.newBuilder()
       .setName("")
       .setUniqueId(UUID.randomUUID())
-      .setApplyKey(0)
+      .setApplyKey("0")
       .setSubmitted(0)
       .setPluginKind("")
       .setBuildStyle("")

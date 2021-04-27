@@ -10,5 +10,5 @@ commands:
   setspawn:
   admin:
   info:
-    aliases:
-      - information:
+    aliases: [information]
+  delete:
