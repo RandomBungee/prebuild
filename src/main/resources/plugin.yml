@@ -1,12 +1,14 @@
-name: PreBuilding
-version: 1.2.3
+name: Vorbau
+version: 2.0.0
 author: RandomBungee
 api-version: 1.16
 
-main: de.flamefoxes.prebuild.PreBuilding
+main: de.flamefoxes.build.Build
 
 commands:
   finish:
   setspawn:
   admin:
-  status:
+  info:
+    aliases: [information]
+  delete:
