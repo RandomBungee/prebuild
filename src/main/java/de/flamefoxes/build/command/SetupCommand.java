@@ -23,7 +23,7 @@ public class SetupCommand implements CommandExecutor {
       return true;
     }
     Player player = (Player) commandSender;
-    buildUtil.locations().location("spawn");
+    buildUtil.locations().setLocation("spawn", player.getLocation());
     player.sendMessage(BuildUtil.PREFIX + "§7Du hast den §eSpawn §aerfolgreich §7gesetzt!");
     return false;
   }

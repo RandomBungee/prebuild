@@ -22,6 +22,7 @@ public class PlayerInitialListener implements Listener {
     Player player = playerJoinEvent.getPlayer();
     playerJoinEvent.setJoinMessage(null);
     if (!iBuildPlayer.exist(player.getUniqueId())) {
+      buildUtil.locations().location("spawn");
       buildUtil.inventory().createInventory("video", player);
       buildUtil.registerProcess(true);
       return;

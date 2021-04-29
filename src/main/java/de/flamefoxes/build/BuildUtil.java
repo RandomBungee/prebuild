@@ -5,6 +5,8 @@ import de.flamefoxes.build.config.*;
 import de.flamefoxes.build.listener.*;
 import de.flamefoxes.build.sql.Mysql;
 import de.flamefoxes.build.util.PlayerInventory;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.PluginManager;
 
 public class BuildUtil {
@@ -30,13 +32,18 @@ public class BuildUtil {
       "pre_build",
       3306
     );
-
     mysql.connect();
     mysql.createTable();
     pluginManager = build.getServer().getPluginManager();
     locations = new Locations();
     inventory = new PlayerInventory(this);
     themes = new Themes();
+    for(World worlds : Bukkit.getWorlds()) {
+      build.getServer().getWorld(worlds.getName()).setStorm(false);
+      build.getServer().getWorld(worlds.getName()).setGameRuleValue("randomTickSpeed", "0");
+      build.getServer().getWorld(worlds.getName()).setGameRuleValue("doDaylightCycle", "false");
+      build.getServer().getWorld(worlds.getName()).setTime(1000);
+    }
   }
 
   public void deinitialize() {
