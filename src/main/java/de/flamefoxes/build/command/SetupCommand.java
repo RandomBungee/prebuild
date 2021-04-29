@@ -5,6 +5,7 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 
 public class SetupCommand implements CommandExecutor {
+
   private final BuildUtil buildUtil;
 
   public SetupCommand(BuildUtil buildUtil) {
@@ -18,10 +19,10 @@ public class SetupCommand implements CommandExecutor {
     String labels,
     String[] arguments
   ) {
-    if(checkCommandComponents(commandSender, command)) {
+    if (checkCommandComponents(commandSender, command)) {
       return true;
     }
-    Player player = (Player)commandSender;
+    Player player = (Player) commandSender;
     buildUtil.locations().location("spawn");
     player.sendMessage(BuildUtil.PREFIX + "§7Du hast den §eSpawn §aerfolgreich §7gesetzt!");
     return false;
@@ -31,14 +32,14 @@ public class SetupCommand implements CommandExecutor {
     CommandSender commandSender,
     Command command
   ) {
-    if(!command.getName().equalsIgnoreCase("setspawn")) {
+    if (!command.getName().equalsIgnoreCase("setspawn")) {
       return true;
     }
-    if(!(commandSender instanceof Player)) {
+    if (!(commandSender instanceof Player)) {
       commandSender.sendMessage(BuildUtil.PREFIX + "§cDu musst ein Spieler sein!");
       return true;
     }
-    if(!commandSender.hasPermission("prebuild.command.setspawn")) {
+    if (!commandSender.hasPermission("prebuild.command.setspawn")) {
       commandSender.sendMessage(BuildUtil.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
       return true;
     }

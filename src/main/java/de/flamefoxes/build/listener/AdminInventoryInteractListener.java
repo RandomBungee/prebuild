@@ -6,6 +6,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.inventory.*;
 
 public class AdminInventoryInteractListener implements Listener {
+
   private final BuildUtil buildUtil;
 
   public AdminInventoryInteractListener(BuildUtil buildUtil) {
@@ -14,15 +15,17 @@ public class AdminInventoryInteractListener implements Listener {
 
   @EventHandler
   public void teleportToWorld(InventoryClickEvent inventoryClickEvent) {
-    Player player = (Player)inventoryClickEvent.getWhoClicked();
+    Player player = (Player) inventoryClickEvent.getWhoClicked();
     try {
-      if(inventoryClickEvent.getView().getTitle().equalsIgnoreCase("§7Spieler-List")) {
+      if (inventoryClickEvent.getView().getTitle().equalsIgnoreCase("§7Spieler-List")) {
         String playerName
-          = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().replaceAll("§8» ", "");
+          = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .replaceAll("§8» ", "");
         player.closeInventory();
         buildUtil.build().getServer().dispatchCommand(player, "mv tp " + playerName);
         buildUtil.build().getServer().dispatchCommand(player, "mv confirm");
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 }

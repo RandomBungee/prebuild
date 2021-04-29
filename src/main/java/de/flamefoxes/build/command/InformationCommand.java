@@ -15,11 +15,13 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class InformationCommand implements CommandExecutor {
+
   private final BuildUtil buildUtil;
-  private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);
+  private final IBuildPlayer iBuildPlayer;
 
   public InformationCommand(BuildUtil buildUtil) {
     this.buildUtil = buildUtil;
+    this.iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 
   @Override
@@ -29,15 +31,15 @@ public class InformationCommand implements CommandExecutor {
     @NotNull String label,
     @NotNull String[] arguments
   ) {
-    if(checkCommandComponents(commandSender, command)) {
+    if (checkCommandComponents(commandSender, command)) {
       return true;
     }
-    Player player = (Player)commandSender;
-    if(arguments.length == 0) {
+    Player player = (Player) commandSender;
+    if (arguments.length == 0) {
       Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(player.getUniqueId());
       BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
       String theme = buildPlayer.getTheme();
-      String submitted =  (buildPlayer.getSubmitted() != 0) ?  "§aAbgegeben" : "§cNicht abgegeben";
+      String submitted = (buildPlayer.getSubmitted() != 0) ? "§aAbgegeben" : "§cNicht abgegeben";
       String applyKey = buildPlayer.getApplyKey();
       player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
       player.sendMessage(BuildUtil.PREFIX + "§7Bauthema: " + theme);
@@ -46,8 +48,8 @@ public class InformationCommand implements CommandExecutor {
       player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
       return true;
     }
-    if(arguments.length == 1) {
-      if(!player.hasPermission("prebuild.command.info")) {
+    if (arguments.length == 1) {
+      if (!player.hasPermission("prebuild.command.info")) {
         player.sendMessage(BuildUtil.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
         return true;
       }
@@ -57,7 +59,7 @@ public class InformationCommand implements CommandExecutor {
         Optional<BuildPlayer> optionalBuildPlayer = iBuildPlayer.find(uuid);
         BuildPlayer buildPlayer = optionalBuildPlayer.orElse(noSuchPlayer());
         String theme = buildPlayer.getTheme();
-        String submitted =  (buildPlayer.getSubmitted() != 0) ?  "§aAbgegeben" : "§cNicht abgegeben";
+        String submitted = (buildPlayer.getSubmitted() != 0) ? "§aAbgegeben" : "§cNicht abgegeben";
         String pluginKind = buildPlayer.getPluginKind();
         String structureKind = buildPlayer.getStructureKind();
         String buildStyle = buildPlayer.getBuildStyle();
@@ -69,7 +71,8 @@ public class InformationCommand implements CommandExecutor {
         player.sendMessage(BuildUtil.PREFIX + "§7Strukturen: " + structureKind);
         player.sendMessage(BuildUtil.PREFIX + "§7Baustyle: " + buildStyle);
         player.sendMessage("§7---------------<§eInformationen§7>§7---------------");
-      } catch (Exception ignore) {}
+      } catch (Exception ignore) {
+      }
     }
     return false;
   }
@@ -78,10 +81,10 @@ public class InformationCommand implements CommandExecutor {
     CommandSender commandSender,
     Command command
   ) {
-    if(!command.getName().equalsIgnoreCase("info")) {
+    if (!command.getName().equalsIgnoreCase("info")) {
       return true;
     }
-    if(!(commandSender instanceof Player)) {
+    if (!(commandSender instanceof Player)) {
       commandSender.sendMessage(BuildUtil.PREFIX + "§cDu musst ein Spieler sein!");
       return true;
     }

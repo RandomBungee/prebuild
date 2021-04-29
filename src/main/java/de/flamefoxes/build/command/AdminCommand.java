@@ -5,6 +5,7 @@ import org.bukkit.command.*;
 import org.bukkit.entity.*;
 
 public class AdminCommand implements CommandExecutor {
+
   private final BuildUtil buildUtil;
 
   public AdminCommand(BuildUtil buildUtil) {
@@ -18,10 +19,10 @@ public class AdminCommand implements CommandExecutor {
     String label,
     String[] arguments
   ) {
-    if(checkCommandComponents(commandSender, command)) {
+    if (checkCommandComponents(commandSender, command)) {
       return true;
     }
-    Player player = (Player)commandSender;
+    Player player = (Player) commandSender;
     buildUtil.inventory().createInventory("list", player);
     return false;
   }
@@ -30,14 +31,14 @@ public class AdminCommand implements CommandExecutor {
     CommandSender commandSender,
     Command command
   ) {
-    if(!command.getName().equalsIgnoreCase("admin")) {
+    if (!command.getName().equalsIgnoreCase("admin")) {
       return true;
     }
-    if(!(commandSender instanceof Player)) {
+    if (!(commandSender instanceof Player)) {
       commandSender.sendMessage(BuildUtil.PREFIX + "§cDu musst ein Spieler sein!");
       return true;
     }
-    if(!commandSender.hasPermission("prebuild.command.admin")) {
+    if (!commandSender.hasPermission("prebuild.command.admin")) {
       commandSender.sendMessage(BuildUtil.PREFIX + "§7Dafür hast du §ckeine §7Rechte!");
       return true;
     }

@@ -6,7 +6,9 @@ import org.bukkit.configuration.file.*;
 import java.io.*;
 
 public class Locations {
-  public Locations() {}
+
+  public Locations() {
+  }
 
   private File file = new File("plugins/PreBuilding", "locations.yml");
   private FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);

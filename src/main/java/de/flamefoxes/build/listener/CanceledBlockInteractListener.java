@@ -1,5 +1,7 @@
 package de.flamefoxes.build.listener;
 
+import de.flamefoxes.build.Build;
+import de.flamefoxes.build.BuildUtil;
 import de.flamefoxes.build.player.*;
 import de.flamefoxes.build.sql.*;
 import java.util.*;
@@ -9,10 +11,14 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.*;
 
 public class CanceledBlockInteractListener implements Listener {
-  private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);
-  private BuildPlayer buildPlayer;
 
-  public CanceledBlockInteractListener() {}
+  private final IBuildPlayer iBuildPlayer;
+  private final BuildUtil buildUtil;
+
+  public CanceledBlockInteractListener(BuildUtil buildUtil) {
+    this.buildUtil = buildUtil;
+    iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
+  }
 
   @EventHandler
   public void blockDamageByEntity(EntityDamageByEntityEvent event) {
@@ -32,7 +38,7 @@ public class CanceledBlockInteractListener implements Listener {
   @EventHandler
   public void checkPlayerAllowedToPlace(BlockPlaceEvent blockPlaceEvent) {
     Player player = blockPlaceEvent.getPlayer();
-    if(buildPlayer(player).getSubmitted() == 1) {
+    if (buildPlayer(player).getSubmitted() == 1) {
       blockPlaceEvent.setCancelled(true);
       return;
     }
@@ -42,7 +48,7 @@ public class CanceledBlockInteractListener implements Listener {
   @EventHandler
   public void checkPlayerAllowedToBreak(BlockBreakEvent blockBreakEvent) {
     Player player = blockBreakEvent.getPlayer();
-    if(buildPlayer(player).getSubmitted() == 1) {
+    if (buildPlayer(player).getSubmitted() == 1) {
       blockBreakEvent.setCancelled(true);
       return;
     }

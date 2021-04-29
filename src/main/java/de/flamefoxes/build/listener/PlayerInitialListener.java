@@ -8,23 +8,26 @@ import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 
 public class PlayerInitialListener implements Listener {
+
   private final BuildUtil buildUtil;
-  private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);
+  private final IBuildPlayer iBuildPlayer;
 
   public PlayerInitialListener(BuildUtil buildUtil) {
     this.buildUtil = buildUtil;
+    this.iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 
   @EventHandler
   public void playerInitialOnJoin(PlayerJoinEvent playerJoinEvent) {
     Player player = playerJoinEvent.getPlayer();
     playerJoinEvent.setJoinMessage(null);
-    if(!iBuildPlayer.exist(player.getUniqueId())) {
+    if (!iBuildPlayer.exist(player.getUniqueId())) {
       buildUtil.inventory().createInventory("video", player);
       buildUtil.registerProcess(true);
       return;
     }
     player.sendMessage(BuildUtil.PREFIX + "§7Wilkommen auf dem Bau-Server!");
-    player.sendMessage(BuildUtil.PREFIX + "§7Bist du fertig mit deiner Welt? §aDann gebe §c/finish §aein!");
+    player.sendMessage(
+      BuildUtil.PREFIX + "§7Bist du fertig mit deiner Welt? §aDann gebe §c/finish §aein!");
   }
 }

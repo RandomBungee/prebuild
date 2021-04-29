@@ -16,16 +16,20 @@ import org.bukkit.inventory.meta.*;
 import org.bukkit.scheduler.*;
 
 public class RegisterInventoryClickListener implements Listener {
+
   private final BuildUtil buildUtil;
-  private final IBuildPlayer iBuildPlayer = SqlBuildPlayer.create(Mysql.connection);
+  private final IBuildPlayer iBuildPlayer;
   private final HashMap<Player, String> structure = new HashMap<>();
-  private final HashMap<Player, String> plugin = new HashMap<>();;
-  private final HashMap<Player, String> style = new HashMap<>();;
+  private final HashMap<Player, String> plugin = new HashMap<>();
+  ;
+  private final HashMap<Player, String> style = new HashMap<>();
+  ;
   private final List<String> structures = new ArrayList<>();
   private final List<String> plugins = new ArrayList<>();
 
   public RegisterInventoryClickListener(BuildUtil buildUtil) {
     this.buildUtil = buildUtil;
+    this.iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 
   @EventHandler
@@ -35,7 +39,8 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Schaue dir unser Video an!")) {
         inventoryClickEvent.setCancelled(true);
-        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
             public void run() {
@@ -48,7 +53,8 @@ public class RegisterInventoryClickListener implements Listener {
           }.runTask(buildUtil.build());
         }
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
@@ -56,9 +62,10 @@ public class RegisterInventoryClickListener implements Listener {
     Player player = (Player) inventoryClickEvent.getWhoClicked();
     try {
       if (inventoryClickEvent.getView().getTitle()
-      .equalsIgnoreCase("§7Datenschutzerklärung")) {
+        .equalsIgnoreCase("§7Datenschutzerklärung")) {
         inventoryClickEvent.setCancelled(true);
-        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
             public void run() {
@@ -71,7 +78,8 @@ public class RegisterInventoryClickListener implements Listener {
           }.runTask(buildUtil.build());
         }
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
@@ -81,36 +89,41 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Welche Plguins beherrscht du?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+        if (!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")
           && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
-          if(!plugins.contains(item.replaceAll("§7", ""))) {
+          if (!plugins.contains(item.replaceAll("§7", ""))) {
             plugins.add(item.replaceAll("§7", ""));
             plugin.put(player, transformListToString(plugins));
             buildUtil.inventory().inventory.setItem(
-              inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
+              inventoryClickEvent.getSlot(),
+              createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
                 inventoryClickEvent.getCurrentItem().getType())
             );
           }
         }
-        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
             public void run() {
-              if(!plugin.isEmpty()) {
+              if (!plugin.isEmpty()) {
                 buildUtil.registerProcess(false);
                 player.closeInventory();
                 buildUtil.inventory().createInventory("structure", player);
                 buildUtil.registerProcess(true);
                 cancel();
               } else {
-                player.sendMessage(BuildUtil.PREFIX + "§cDu musst mindestens ein Plugin auswählen!");
+                player
+                  .sendMessage(BuildUtil.PREFIX + "§cDu musst mindestens ein Plugin auswählen!");
               }
             }
           }.runTask(buildUtil.build());
         }
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
@@ -120,36 +133,41 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Was beherrscht du gut?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+        if (!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")
           && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
-          if(!structures.contains(item.replaceAll("§7", ""))) {
+          if (!structures.contains(item.replaceAll("§7", ""))) {
             structures.add(item.replaceAll("§7", ""));
             structure.put(player, transformListToString(structures));
             buildUtil.inventory().inventory.setItem(
-              inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
+              inventoryClickEvent.getSlot(),
+              createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
                 inventoryClickEvent.getCurrentItem().getType())
             );
           }
         }
-        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")) {
+        if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")) {
           new BukkitRunnable() {
             @Override
             public void run() {
-              if(!structures.isEmpty()) {
+              if (!structures.isEmpty()) {
                 buildUtil.registerProcess(false);
                 player.closeInventory();
                 buildUtil.inventory().createInventory("style", player);
                 buildUtil.registerProcess(true);
                 cancel();
               } else {
-                player.sendMessage(BuildUtil.PREFIX + "§cDu musst mindestens eine Baustruktur auswählen!");
+                player.sendMessage(
+                  BuildUtil.PREFIX + "§cDu musst mindestens eine Baustruktur auswählen!");
               }
             }
           }.runTask(buildUtil.build());
         }
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
@@ -159,13 +177,15 @@ public class RegisterInventoryClickListener implements Listener {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Was für Baustile beherrscht du gut?")) {
         inventoryClickEvent.setCancelled(true);
-        if(!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§a>> Weiter")
+        if (!inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§a>> Weiter")
           && inventoryClickEvent.getCurrentItem().getType() != Material.BLACK_STAINED_GLASS_PANE) {
           String item = inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName();
           style.put(player, item.replace("§e", ""));
           buildUtil.inventory()
             .inventory.setItem(
-            inventoryClickEvent.getSlot(), createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
+            inventoryClickEvent.getSlot(),
+            createItem(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName(),
               inventoryClickEvent.getCurrentItem().getType())
           );
         }
@@ -180,7 +200,8 @@ public class RegisterInventoryClickListener implements Listener {
           }
         }.runTask(buildUtil.build());
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
@@ -189,7 +210,8 @@ public class RegisterInventoryClickListener implements Listener {
     try {
       if (inventoryClickEvent.getView().getTitle()
         .equalsIgnoreCase("§7Fertig? Bist du bereit?")) {
-        if(inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase("§aLos gehts!")) {
+        if (inventoryClickEvent.getCurrentItem().getItemMeta().getDisplayName()
+          .equalsIgnoreCase("§aLos gehts!")) {
           buildUtil.registerProcess(false);
           player.closeInventory();
           String theme = pickRandomTheme(player);
@@ -198,7 +220,8 @@ public class RegisterInventoryClickListener implements Listener {
           String plugins = plugin.get(player);
           BuildPlayer buildPlayer = createPlayer(player, theme, plugins, styles, structures);
           iBuildPlayer.create(buildPlayer);
-          MultiverseCore multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+          MultiverseCore multiverseCore = (MultiverseCore) Bukkit.getServer().getPluginManager()
+            .getPlugin("Multiverse-Core");
           MVWorldManager mvWorldManager = multiverseCore.getMVWorldManager();
           mvWorldManager.cloneWorld("build_template", player.getName());
           World world = Bukkit.getWorld(player.getName());
@@ -217,13 +240,14 @@ public class RegisterInventoryClickListener implements Listener {
           );
         }
       }
-    } catch (Exception ignore) {}
+    } catch (Exception ignore) {
+    }
   }
 
   @EventHandler
   public void abortRegistration(InventoryCloseEvent inventoryCloseEvent) {
-    Player player = (Player)inventoryCloseEvent.getPlayer();
-    if(buildUtil.registerProcess()) {
+    Player player = (Player) inventoryCloseEvent.getPlayer();
+    if (buildUtil.registerProcess()) {
       player.kickPlayer("§cDu hast die Registration abgebrochen!");
     }
   }
@@ -267,7 +291,7 @@ public class RegisterInventoryClickListener implements Listener {
 
   private String transformListToString(List<String> list) {
     StringBuilder structureStringBuilder = new StringBuilder();
-    for(String structures : list) {
+    for (String structures : list) {
       structureStringBuilder.append(structures);
       structureStringBuilder.append(", ");
     }

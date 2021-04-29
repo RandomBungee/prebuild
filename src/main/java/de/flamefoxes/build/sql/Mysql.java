@@ -3,6 +3,7 @@ package de.flamefoxes.build.sql;
 import java.sql.*;
 
 public class Mysql {
+
   private final String host;
   private final String user;
   private final String password;
@@ -28,8 +29,9 @@ public class Mysql {
     try {
       connection
         = DriverManager
-        .getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database + "?autoReconnect0true",
-        this.user, this.password);
+        .getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database
+            + "?autoReconnect0true",
+          this.user, this.password);
       System.out.println("[MySQL] Connected!");
     } catch (SQLException failureToConnect) {
       System.err.println("Can´t connect to Mysql-Database: " + failureToConnect.getMessage());
@@ -37,7 +39,7 @@ public class Mysql {
   }
 
   public void closeConnection() {
-    if(connection == null) {
+    if (connection == null) {
       return;
     }
     try {
@@ -48,7 +50,9 @@ public class Mysql {
   }
 
   public void createTable() {
-    if(connection == null) { return; }
+    if (connection == null) {
+      return;
+    }
     try {
       connection
         .prepareStatement("CREATE TABLE IF NOT EXISTS player_data(player_name VARCHAR(16)," +
@@ -56,8 +60,8 @@ public class Mysql {
           "theme VARCHAR(100)," +
           "submitted INT," +
           "check_key VARCHAR(100)," +
-          "structure TEXT,"+
-          "build_style TEXT,"+
+          "structure TEXT," +
+          "build_style TEXT," +
           "plugin TEXT)")
         .executeUpdate();
       System.out.println("[MySQL] Table was created!");

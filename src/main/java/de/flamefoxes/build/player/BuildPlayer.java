@@ -3,6 +3,7 @@ package de.flamefoxes.build.player;
 import java.util.UUID;
 
 public class BuildPlayer {
+
   private String name;
   private UUID uniqueId;
   private String theme;
@@ -13,7 +14,8 @@ public class BuildPlayer {
   private String applyKey;
   public static final Builder BUILDER = new Builder();
 
-  public BuildPlayer() {}
+  public BuildPlayer() {
+  }
 
   public String getName() {
     return name;
@@ -52,6 +54,7 @@ public class BuildPlayer {
   }
 
   public static final class Builder {
+
     private String name;
     private UUID uniqueId;
     private String theme;

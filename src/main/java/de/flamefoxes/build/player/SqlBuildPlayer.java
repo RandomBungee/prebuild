@@ -1,13 +1,20 @@
 package de.flamefoxes.build.player;
 
+import de.flamefoxes.build.BuildUtil;
 import java.sql.*;
 import java.util.*;
 
 public class SqlBuildPlayer implements IBuildPlayer {
-  private final Connection connection;
 
-  private SqlBuildPlayer(Connection connection) {
+  private final Connection connection;
+  private final BuildUtil buildUtil;
+
+  private SqlBuildPlayer(
+    Connection connection,
+    BuildUtil buildUtil
+  ) {
     this.connection = connection;
+    this.buildUtil = buildUtil;
   }
 
   @Override
@@ -15,7 +22,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     try {
       PreparedStatement preparedStatement
         = connection.prepareStatement(
-          "INSERT INTO player_data (player_name,unique_id,theme,submitted,check_key,structure,build_style,plugin) VALUES (?,?,?,?,?,?,?,?)"
+        "INSERT INTO player_data (player_name,unique_id,theme,submitted,check_key,structure,build_style,plugin) VALUES (?,?,?,?,?,?,?,?)"
       );
       createStatement(preparedStatement, buildPlayer);
     } catch (SQLException cantCreatePlayer) {
@@ -27,6 +34,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     PreparedStatement preparedStatement,
     BuildPlayer buildPlayer
   ) throws SQLException {
+    checkSqlConnection(connection);
     preparedStatement.setString(1, buildPlayer.getName());
     preparedStatement.setString(2, buildPlayer.getUniqueId().toString());
     preparedStatement.setString(3, buildPlayer.getTheme());
@@ -43,7 +51,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     try {
       PreparedStatement preparedStatement
         = connection.prepareStatement(
-          "UPDATE player_data SET player_name = ?,theme = ?,submitted = ?,check_key = ?,structure = ?,build_style = ?,plugin = ? WHERE unique_id = ?"
+        "UPDATE player_data SET player_name = ?,theme = ?,submitted = ?,check_key = ?,structure = ?,build_style = ?,plugin = ? WHERE unique_id = ?"
       );
       changeStatement(preparedStatement, buildPlayer);
     } catch (SQLException cantUpdatePlayer) {
@@ -55,6 +63,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     PreparedStatement preparedStatement,
     BuildPlayer buildPlayer
   ) throws SQLException {
+    checkSqlConnection(connection);
     preparedStatement.setString(1, buildPlayer.getName());
     preparedStatement.setString(2, buildPlayer.getTheme());
     preparedStatement.setInt(3, buildPlayer.getSubmitted());
@@ -79,6 +88,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
   }
 
   private List<String> listStatement(PreparedStatement preparedStatement) throws SQLException {
+    checkSqlConnection(connection);
     ResultSet resultSet = preparedStatement.executeQuery();
     List<String> players = new ArrayList<>();
     while (resultSet.next()) {
@@ -104,9 +114,10 @@ public class SqlBuildPlayer implements IBuildPlayer {
     PreparedStatement preparedStatement,
     UUID uniqueId
   ) throws SQLException {
+    checkSqlConnection(connection);
     preparedStatement.setString(1, uniqueId.toString());
     ResultSet resultSet = preparedStatement.executeQuery();
-    if(resultSet.next()) {
+    if (resultSet.next()) {
       String name = resultSet.getString("player_name");
       String theme = resultSet.getString("theme");
       String structureKind = resultSet.getString("structure");
@@ -145,6 +156,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     PreparedStatement preparedStatement,
     UUID uniqueId
   ) throws SQLException {
+    checkSqlConnection(connection);
     preparedStatement.setString(1, uniqueId.toString());
     ResultSet resultSet = preparedStatement.executeQuery();
     return resultSet.next();
@@ -165,6 +177,7 @@ public class SqlBuildPlayer implements IBuildPlayer {
     PreparedStatement preparedStatement,
     String playerName
   ) throws SQLException {
+    checkSqlConnection(connection);
     preparedStatement.setString(1, playerName);
     updateAndCloseStatement(preparedStatement);
   }
@@ -174,7 +187,17 @@ public class SqlBuildPlayer implements IBuildPlayer {
     preparedStatement.close();
   }
 
-  public static SqlBuildPlayer create(Connection connection) {
-    return new SqlBuildPlayer(connection);
+  private void checkSqlConnection(Connection connection) {
+    if (connection != null) {
+      return;
+    }
+    buildUtil.mysql().connect();
+  }
+
+  public static SqlBuildPlayer create(
+    Connection connection,
+    BuildUtil buildUtil
+  ) {
+    return new SqlBuildPlayer(connection, buildUtil);
   }
 }
