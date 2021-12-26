@@ -19,11 +19,11 @@ public class RegisterInventoryClickListener implements Listener {
 
   private final BuildUtil buildUtil;
   private final IBuildPlayer iBuildPlayer;
+
   private final HashMap<Player, String> structure = new HashMap<>();
   private final HashMap<Player, String> plugin = new HashMap<>();
-  ;
   private final HashMap<Player, String> style = new HashMap<>();
-  ;
+
   private final List<String> structures = new ArrayList<>();
   private final List<String> plugins = new ArrayList<>();
 

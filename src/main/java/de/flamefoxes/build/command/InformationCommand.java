@@ -16,11 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class InformationCommand implements CommandExecutor {
 
-  private final BuildUtil buildUtil;
   private final IBuildPlayer iBuildPlayer;
 
   public InformationCommand(BuildUtil buildUtil) {
-    this.buildUtil = buildUtil;
     this.iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 

@@ -15,10 +15,8 @@ import org.bukkit.entity.Player;
 public class DeleteCommand implements CommandExecutor {
 
   private final IBuildPlayer iBuildPlayer;
-  private final BuildUtil buildUtil;
 
   public DeleteCommand(BuildUtil buildUtil) {
-    this.buildUtil = buildUtil;
     this.iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 

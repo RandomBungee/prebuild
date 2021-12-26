@@ -6,18 +6,17 @@ public class Build extends JavaPlugin {
 
   private final BuildUtil buildUtil = BuildUtil.create(this);
 
-  public Build() {
-  }
+  public Build() {}
 
   @Override
   public void onEnable() {
-    buildUtil.initial();
+    buildUtil.loadPlugin();
     buildUtil.registerCommands();
     buildUtil.registerListeners();
   }
 
   @Override
   public void onDisable() {
-    buildUtil.deinitialize();
+    buildUtil.unloadPlugin();
   }
 }

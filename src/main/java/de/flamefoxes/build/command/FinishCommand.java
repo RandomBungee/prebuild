@@ -14,10 +14,8 @@ public class FinishCommand implements CommandExecutor {
 
   private final ArrayList<Player> confirm = new ArrayList<>();
   private final IBuildPlayer iBuildPlayer;
-  private final BuildUtil buildUtil;
 
   public FinishCommand(BuildUtil buildUtil) {
-    this.buildUtil = buildUtil;
     iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 

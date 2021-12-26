@@ -14,8 +14,7 @@ public class BuildPlayer {
   private String applyKey;
   public static final Builder BUILDER = new Builder();
 
-  public BuildPlayer() {
-  }
+  public BuildPlayer() {}
 
   public String getName() {
     return name;

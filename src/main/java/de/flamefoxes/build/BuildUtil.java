@@ -24,7 +24,7 @@ public class BuildUtil {
     this.build = build;
   }
 
-  public void initial() {
+  public void loadPlugin() {
     mysql = new Mysql(
       "192.168.1.102",
       "pre_build",
@@ -46,7 +46,7 @@ public class BuildUtil {
     }
   }
 
-  public void deinitialize() {
+  public void unloadPlugin() {
     mysql.closeConnection();
     System.out.println("Plugin was disabled");
   }

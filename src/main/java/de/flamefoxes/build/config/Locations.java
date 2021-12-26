@@ -10,8 +10,8 @@ public class Locations {
   public Locations() {
   }
 
-  private File file = new File("plugins/PreBuilding", "locations.yml");
-  private FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
+  private final File file = new File("plugins/PreBuilding", "locations.yml");
+  private final FileConfiguration fileConfiguration = YamlConfiguration.loadConfiguration(file);
 
   public void setLocation(String name, Location location) {
     fileConfiguration.set(name + ".world", location.getWorld().getName());

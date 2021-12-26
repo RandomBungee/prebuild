@@ -13,10 +13,8 @@ import org.bukkit.event.entity.*;
 public class CanceledBlockInteractListener implements Listener {
 
   private final IBuildPlayer iBuildPlayer;
-  private final BuildUtil buildUtil;
 
   public CanceledBlockInteractListener(BuildUtil buildUtil) {
-    this.buildUtil = buildUtil;
     iBuildPlayer = SqlBuildPlayer.create(Mysql.connection, buildUtil);
   }
 
