@@ -26,10 +26,10 @@ public class BuildUtil {
 
   public void loadPlugin() {
     mysql = new Mysql(
-      "192.168.1.102",
-      "pre_build",
-      "j6QkFrVNm1nezoU8",
-      "pre_build",
+      "",
+      "",
+      "",
+      "",
       3306
     );
     mysql.connect();
